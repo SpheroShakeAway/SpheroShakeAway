@@ -1,0 +1,11 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <declare-styleable name="CoordinateView">
+
+        <attr name="android:text" />
+    </declare-styleable>
+    
+    <declare-styleable name="ShakesView">
+        <attr name="android:text" />
+    </declare-styleable>
+</resources>
