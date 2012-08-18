@@ -1,4 +1,4 @@
-package com.orbotix.streamingexample;
+package ms.rectu.sphero.shakeaway;
 
 import android.app.Activity;
 import android.content.Intent;

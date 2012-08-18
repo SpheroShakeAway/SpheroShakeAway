@@ -300,7 +300,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #CoordinateView_android_text com.orbotix.streamingexample:android_text}</code></td><td></td></tr>
+           <tr><td><code>{@link #CoordinateView_android_text ms.rectu.sphero.shakeaway:android_text}</code></td><td></td></tr>
            </table>
            @see #CoordinateView_android_text
          */
@@ -308,7 +308,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             0x0101014f
         };
         /**
-          <p>This symbol is the offset where the {@link com.orbotix.streamingexample.R.attr#android_text}
+          <p>This symbol is the offset where the {@link ms.rectu.sphero.shakeaway.R.attr#android_text}
           attribute's value can be found in the {@link #CoordinateView} array.
           @attr name android:android_text
         */
@@ -319,9 +319,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #JoystickView_alpha com.orbotix.streamingexample:alpha}</code></td><td></td></tr>
-           <tr><td><code>{@link #JoystickView_edge_overlap com.orbotix.streamingexample:edge_overlap}</code></td><td></td></tr>
-           <tr><td><code>{@link #JoystickView_puck_radius com.orbotix.streamingexample:puck_radius}</code></td><td></td></tr>
+           <tr><td><code>{@link #JoystickView_alpha ms.rectu.sphero.shakeaway:alpha}</code></td><td></td></tr>
+           <tr><td><code>{@link #JoystickView_edge_overlap ms.rectu.sphero.shakeaway:edge_overlap}</code></td><td></td></tr>
+           <tr><td><code>{@link #JoystickView_puck_radius ms.rectu.sphero.shakeaway:puck_radius}</code></td><td></td></tr>
            </table>
            @see #JoystickView_alpha
            @see #JoystickView_edge_overlap
@@ -331,7 +331,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             0x7f010005, 0x7f010006, 0x7f010007
         };
         /**
-          <p>This symbol is the offset where the {@link com.orbotix.streamingexample.R.attr#alpha}
+          <p>This symbol is the offset where the {@link ms.rectu.sphero.shakeaway.R.attr#alpha}
           attribute's value can be found in the {@link #JoystickView} array.
 
 
@@ -345,7 +345,7 @@ containing a value of this type.
         */
         public static final int JoystickView_alpha = 1;
         /**
-          <p>This symbol is the offset where the {@link com.orbotix.streamingexample.R.attr#edge_overlap}
+          <p>This symbol is the offset where the {@link ms.rectu.sphero.shakeaway.R.attr#edge_overlap}
           attribute's value can be found in the {@link #JoystickView} array.
 
 
@@ -361,7 +361,7 @@ containing a value of this type.
         */
         public static final int JoystickView_edge_overlap = 2;
         /**
-          <p>This symbol is the offset where the {@link com.orbotix.streamingexample.R.attr#puck_radius}
+          <p>This symbol is the offset where the {@link ms.rectu.sphero.shakeaway.R.attr#puck_radius}
           attribute's value can be found in the {@link #JoystickView} array.
 
 
@@ -382,7 +382,7 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #ShakesView_android_text com.orbotix.streamingexample:android_text}</code></td><td></td></tr>
+           <tr><td><code>{@link #ShakesView_android_text ms.rectu.sphero.shakeaway:android_text}</code></td><td></td></tr>
            </table>
            @see #ShakesView_android_text
          */
@@ -390,7 +390,7 @@ containing a value of this type.
             0x0101014f
         };
         /**
-          <p>This symbol is the offset where the {@link com.orbotix.streamingexample.R.attr#android_text}
+          <p>This symbol is the offset where the {@link ms.rectu.sphero.shakeaway.R.attr#android_text}
           attribute's value can be found in the {@link #ShakesView} array.
           @attr name android:android_text
         */
@@ -401,11 +401,11 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #ToggleView_initialPosition com.orbotix.streamingexample:initialPosition}</code></td><td></td></tr>
-           <tr><td><code>{@link #ToggleView_orientation com.orbotix.streamingexample:orientation}</code></td><td></td></tr>
-           <tr><td><code>{@link #ToggleView_position1Background com.orbotix.streamingexample:position1Background}</code></td><td></td></tr>
-           <tr><td><code>{@link #ToggleView_position2Background com.orbotix.streamingexample:position2Background}</code></td><td></td></tr>
-           <tr><td><code>{@link #ToggleView_toggleButton com.orbotix.streamingexample:toggleButton}</code></td><td></td></tr>
+           <tr><td><code>{@link #ToggleView_initialPosition ms.rectu.sphero.shakeaway:initialPosition}</code></td><td></td></tr>
+           <tr><td><code>{@link #ToggleView_orientation ms.rectu.sphero.shakeaway:orientation}</code></td><td></td></tr>
+           <tr><td><code>{@link #ToggleView_position1Background ms.rectu.sphero.shakeaway:position1Background}</code></td><td></td></tr>
+           <tr><td><code>{@link #ToggleView_position2Background ms.rectu.sphero.shakeaway:position2Background}</code></td><td></td></tr>
+           <tr><td><code>{@link #ToggleView_toggleButton ms.rectu.sphero.shakeaway:toggleButton}</code></td><td></td></tr>
            </table>
            @see #ToggleView_initialPosition
            @see #ToggleView_orientation
@@ -418,7 +418,7 @@ containing a value of this type.
             0x7f010004
         };
         /**
-          <p>This symbol is the offset where the {@link com.orbotix.streamingexample.R.attr#initialPosition}
+          <p>This symbol is the offset where the {@link ms.rectu.sphero.shakeaway.R.attr#initialPosition}
           attribute's value can be found in the {@link #ToggleView} array.
 
 
@@ -435,7 +435,7 @@ containing a value of this type.
         */
         public static final int ToggleView_initialPosition = 4;
         /**
-          <p>This symbol is the offset where the {@link com.orbotix.streamingexample.R.attr#orientation}
+          <p>This symbol is the offset where the {@link ms.rectu.sphero.shakeaway.R.attr#orientation}
           attribute's value can be found in the {@link #ToggleView} array.
 
 
@@ -452,7 +452,7 @@ containing a value of this type.
         */
         public static final int ToggleView_orientation = 3;
         /**
-          <p>This symbol is the offset where the {@link com.orbotix.streamingexample.R.attr#position1Background}
+          <p>This symbol is the offset where the {@link ms.rectu.sphero.shakeaway.R.attr#position1Background}
           attribute's value can be found in the {@link #ToggleView} array.
 
 
@@ -462,7 +462,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ToggleView_position1Background = 0;
         /**
-          <p>This symbol is the offset where the {@link com.orbotix.streamingexample.R.attr#position2Background}
+          <p>This symbol is the offset where the {@link ms.rectu.sphero.shakeaway.R.attr#position2Background}
           attribute's value can be found in the {@link #ToggleView} array.
 
 
@@ -472,7 +472,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ToggleView_position2Background = 1;
         /**
-          <p>This symbol is the offset where the {@link com.orbotix.streamingexample.R.attr#toggleButton}
+          <p>This symbol is the offset where the {@link ms.rectu.sphero.shakeaway.R.attr#toggleButton}
           attribute's value can be found in the {@link #ToggleView} array.
 
 
