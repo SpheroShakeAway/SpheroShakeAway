@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">StreamingExample</string>
+    <string name="app_name">ShakeAway</string>
 
     <!-- Values -->
     <string name="gyro">Gyro:</string>
@@ -12,6 +12,18 @@
     <string name="y_label">Y:</string>
     <string name="z_label">Z:</string>
     <string name="shakes_count">Shakes Count:</string>
+    <string name="InstructionsHeader">Instructions</string>
+    <string name="InstructionPage1">1. Divide players into two teams</string>
+    <color name="RED">#FF0000</color>
+    <color name="BLUE">#0000FF</color>
+    <string name="RedTeam">RED</string>
+    <string name="BlueTeam">BLUE</string>
+    <string name="and">and</string>
+    <string name="InstructionsPage2">2. When you start the game on your phone, you will have ten (10) seconds to set up. No team should be in posession of the ball at this time.</string>
+    <string name="InstructionsPage3">3. When the Sphero turns your team's color, grab it and shake it as many times as possible. Ten (10) shakes will get you one (1) point.</string>
+    <string name="InstructionsPage4">4. When the Sphero changes colors, throw it into another part of the pool as soon as you notice, so the other team can get it.</string>
+    <string name="InstructionsPage4Disclaimer">Note: make sure the Sphero lands in the water.</string>
+    <string name="InstructionsPage5">5. The first team to 50 points is the winner! The winner's color will flash on the Sphero when the game ends.</string>
 
 
 </resources>
