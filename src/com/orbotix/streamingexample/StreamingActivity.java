@@ -10,6 +10,8 @@ import orbotix.robot.sensor.AttitudeData;
 import orbotix.robot.sensor.DeviceSensorsData;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class StreamingActivity extends Activity
 {
@@ -42,7 +44,7 @@ public class StreamingActivity extends Activity
     private DeviceMessenger.AsyncDataListener mDataListener = new DeviceMessenger.AsyncDataListener() {
         @Override
         public void onDataReceived(DeviceAsyncData data) {
-
+        	
             if(data instanceof DeviceSensorsAsyncData){
 
             	// If we are getting close to packet limit, request more
@@ -87,18 +89,24 @@ public class StreamingActivity extends Activity
         }
     };
 
+    //1000*60*60*24
+    private final static long TIMER_CHANGE = 1000*60*60*24;
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        //perform the task once a day at 4 a.m., starting tomorrow morning
+        //(other styles are possible as well)
 
         //Get important views
         mImuView = (ImuView)findViewById(R.id.imu_values);
         mAccelerometerFilteredView = (CoordinateView)findViewById(R.id.accelerometer_filtered_coordinates);
         mShakeFilteredView = (ShakesView)findViewById(R.id.shakes_coordinate);
-
+                
         //Show the StartupActivity to connect to Sphero
         startActivityForResult(new Intent(this, StartupActivity.class), sStartupActivity);
     }
@@ -116,7 +124,12 @@ public class StreamingActivity extends Activity
                 mRobot = RobotProvider.getDefaultProvider().findRobot(id);
 
                 requestDataStreaming();
-                
+
+                ChangeScoring score = new ChangeScoring(mRobot);
+                score.changeTeams();
+
+                RGBLEDOutputCommand.sendCommand(mRobot, 255, 0, 0);
+
                 //Set the AsyncDataListener that will process each response.
                 DeviceMessenger.getInstance().addAsyncDataListener(mRobot, mDataListener);
 
