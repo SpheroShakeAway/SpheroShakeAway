@@ -30,7 +30,7 @@ public class ChangeScoring {
 
 		pulseMacro = new MacroObject();
 		pulseMacro.setRobot(mRobot);
-		pulseMacro.addCommand(new RGB(0, 0, 0, 0));
+		pulseMacro.addCommand(new RGB(255, 255, 255, 0));
 		pulseMacro.addCommand(new RawMotor(RawMotor.DriveMode.FORWARD, 255,
 				RawMotor.DriveMode.FORWARD, 255, 0));
 		pulseMacro.addCommand(new Delay(5000));
@@ -107,19 +107,18 @@ public class ChangeScoring {
 			if(winningTeam == BLUE_TEAM){
 				pulseMacroWinner = new MacroObject();
 				pulseMacroWinner.setRobot(mRobot);
+				pulseMacroWinner.addCommand( new RGB(0, 0, 255, 0));
 				pulseMacroWinner.addCommand(new RawMotor(RawMotor.DriveMode.FORWARD, 255,
 						RawMotor.DriveMode.FORWARD, 255, 0));
 				pulseMacroWinner.addCommand(new Delay(5000));
-
-				pulseMacroWinner.addCommand( new RGB(0, 0, 255, 0));
 			}
 			else{
 				pulseMacroWinner = new MacroObject();
 				pulseMacroWinner.setRobot(mRobot);
+				pulseMacroWinner.addCommand( new RGB(255, 0, 0, 0));
 				pulseMacroWinner.addCommand(new RawMotor(RawMotor.DriveMode.FORWARD, 255,
 						RawMotor.DriveMode.FORWARD, 255, 0));
 				pulseMacroWinner.addCommand(new Delay(5000));
-				pulseMacroWinner.addCommand( new RGB(255, 0, 0, 0));
 
 				//RGBLEDOutputCommand.sendCommand(mRobot, 255, 0, 0);
 			}
