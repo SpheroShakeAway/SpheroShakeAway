@@ -94,6 +94,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
          */
         public static final int toggleButton=0x7f010002;
     }
+    public static final class color {
+        public static final int BLUE=0x7f080001;
+        public static final int RED=0x7f080000;
+    }
     public static final class drawable {
         public static final int action_item_btn=0x7f020000;
         public static final int action_item_selected=0x7f020001;
@@ -211,8 +215,18 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int title_space=0x7f03000b;
     }
     public static final class string {
+        public static final int BlueTeam=0x7f060019;
         public static final int BuySphero=0x7f06000c;
+        public static final int InstructionPage1=0x7f060017;
+        public static final int InstructionsHeader=0x7f060016;
+        public static final int InstructionsPage2=0x7f06001b;
+        public static final int InstructionsPage3=0x7f06001c;
+        public static final int InstructionsPage4=0x7f06001d;
+        public static final int InstructionsPage4Disclaimer=0x7f06001e;
+        public static final int InstructionsPage5=0x7f06001f;
+        public static final int RedTeam=0x7f060018;
         public static final int accelerometer=0x7f06000f;
+        public static final int and=0x7f06001a;
         public static final int app_name=0x7f060008;
         public static final int calibration_title=0x7f06000b;
         public static final int color_picker_title=0x7f060009;
