@@ -13,7 +13,6 @@ import orbotix.macro.RawMotor;
 import orbotix.robot.base.DeviceMessenger;
 import orbotix.robot.base.RGBLEDOutputCommand;
 import orbotix.robot.base.Robot;
-import android.os.Handler;
 
 public class ChangeScoring {
 
@@ -132,14 +131,6 @@ public class ChangeScoring {
 			}
 
 			pulseMacroWinner.playMacro();
-
-			// Send delayed message on a handler to run blink again
-			final Handler handler = new Handler();
-			handler.postDelayed(new Runnable() {
-				public void run() {
-					blinkEndGame(!lit, winningTeam);
-				}
-			}, 1000);
 		}
 	}
 
