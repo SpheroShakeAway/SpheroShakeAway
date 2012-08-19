@@ -34,6 +34,10 @@ public class ChangeScoring {
 		
 	}
 	
+	public int getTeamScoring(){
+		return (colorState ? 1: 2);
+	}
+	
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
 		    public void changeTeams() {

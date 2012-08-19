@@ -25,5 +25,20 @@
             android:layout_toRightOf="@+id/shakes_label"
             android:text="0"
             />
+    
+    <TextView
+            android:id="@+id/shakes_label2"
+            style="@style/ListItemLabel.Child"
+            android:layout_below="@+id/shakes_label"
+            android:text="Count Team 2:"
+            />
+
+    <TextView
+            android:id="@+id/shakes_value2"
+            style="@style/Label.Value"
+            android:layout_below="@+id/shakes_value"
+            android:layout_toRightOf="@+id/shakes_label2"
+            android:text="0"
+            />
 
 </RelativeLayout>

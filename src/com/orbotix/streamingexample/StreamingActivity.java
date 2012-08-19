@@ -36,7 +36,8 @@ public class StreamingActivity extends Activity
     private ImuView mImuView;
     private CoordinateView mAccelerometerFilteredView;
     private ShakesView mShakeFilteredView;
-    private int shakesCount = 0;
+    private int shakesCount, shakesCount2 = 0;
+    private ChangeScoring scoring;
 
     /**
      * AsyncDataListener that will be assigned to the DeviceMessager, listen for streaming data, and then do the
@@ -74,12 +75,18 @@ public class StreamingActivity extends Activity
                         	double shakesThreshold = accel.getFilteredAcceleration().x + accel.getFilteredAcceleration().y + accel.getFilteredAcceleration().z;
                         	
                         	if(shakesThreshold > 4.0){
-                        		shakesCount += 1;
-                        		//System.out.println("Shakes: "+shakesCount);
-                        		mShakeFilteredView.setShakesCount(""+shakesCount);
+                        		if(scoring.getTeamScoring() == 1){
+                        			shakesCount += 1;
+                        			mShakeFilteredView.setShakesCount(""+shakesCount);
+                        		}
+                        		else{
+                        			shakesCount2 += 1;
+                        			mShakeFilteredView.setShakesCount2(""+shakesCount2);
+                        		}
+                        		//System.out.println("Shakes: "+shakesCount);                        		
                         	}
                                                                 	
-                            mAccelerometerFilteredView.setX(""+accel.getFilteredAcceleration().x);
+                            mAccelerometerFilteredView.setX("" + accel.getFilteredAcceleration().x);
                             mAccelerometerFilteredView.setY("" + accel.getFilteredAcceleration().y);
                             mAccelerometerFilteredView.setZ("" + accel.getFilteredAcceleration().z);
                         }
@@ -125,8 +132,9 @@ public class StreamingActivity extends Activity
 
                 requestDataStreaming();
 
-                ChangeScoring score = new ChangeScoring(mRobot);
-                score.changeTeams();
+                scoring = new ChangeScoring(mRobot);
+
+                scoring.changeTeams();
 
                 RGBLEDOutputCommand.sendCommand(mRobot, 255, 0, 0);
 
@@ -134,8 +142,10 @@ public class StreamingActivity extends Activity
                 DeviceMessenger.getInstance().addAsyncDataListener(mRobot, mDataListener);
 
                 StabilizationCommand.sendCommand(mRobot, false);
-                //RawMotorCommand.sendCommand(mRobot, RawMotorCommand.MOTOR_MODE_FORWARD, 255, RawMotorCommand.MOTOR_MODE_FORWARD, 255);
+                
                 FrontLEDOutputCommand.sendCommand(mRobot, 1f);
+
+                //RawMotorCommand.sendCommand(mRobot, RawMotorCommand.MOTOR_MODE_FORWARD, 255, RawMotorCommand.MOTOR_MODE_FORWARD, 255);
             }
         }
     }
