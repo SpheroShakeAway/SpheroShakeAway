@@ -3,6 +3,8 @@ package com.orbotix.streamingexample;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import orbotix.robot.app.StartupActivity;
 import orbotix.robot.base.*;
 import orbotix.robot.sensor.AccelerometerData;
@@ -33,9 +35,7 @@ public class StreamingActivity extends Activity
     private Robot mRobot = null;
 
     //The views that will show the streaming data
-    private ImuView mImuView;
-    private CoordinateView mAccelerometerFilteredView;
-    private ShakesView mShakeFilteredView;
+//    private ShakesView mShakeFilteredView;
     private int shakesCount, shakesCount2 = 0;
     private ChangeScoring scoring;
 
@@ -63,11 +63,6 @@ public class StreamingActivity extends Activity
 
                         //Show attitude data
                         AttitudeData attitude = datum.getAttitudeData();
-                        if(attitude != null){
-                            mImuView.setPitch("" + attitude.getAttitudeSensor().pitch);
-                            mImuView.setRoll("" + attitude.getAttitudeSensor().roll);
-                            mImuView.setYaw("" + attitude.getAttitudeSensor().yaw);
-                        }
 
                         //Show accelerometer data
                         AccelerometerData accel = datum.getAccelerometerData();
@@ -77,18 +72,15 @@ public class StreamingActivity extends Activity
                         	if(shakesThreshold > 4.0){
                         		if(scoring.getTeamScoring() == 1){
                         			shakesCount += 1;
-                        			mShakeFilteredView.setShakesCount(""+shakesCount);
+//                        			mShakeFilteredView.setShakesCount(""+shakesCount);
                         		}
                         		else{
                         			shakesCount2 += 1;
-                        			mShakeFilteredView.setShakesCount2(""+shakesCount2);
+//                        			mShakeFilteredView.setShakesCount2(""+shakesCount2);
                         		}
-                        		//System.out.println("Shakes: "+shakesCount);                        		
+                        		System.out.println("Shakes: "+shakesCount);   
+                        		System.out.println("Shakes2: "+shakesCount2);   
                         	}
-                                                                	
-                            mAccelerometerFilteredView.setX("" + accel.getFilteredAcceleration().x);
-                            mAccelerometerFilteredView.setY("" + accel.getFilteredAcceleration().y);
-                            mAccelerometerFilteredView.setZ("" + accel.getFilteredAcceleration().z);
                         }
                     }
                 }
@@ -104,18 +96,35 @@ public class StreamingActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        
+        setContentView(R.layout.main1);
+
         //perform the task once a day at 4 a.m., starting tomorrow morning
         //(other styles are possible as well)
 
         //Get important views
-        mImuView = (ImuView)findViewById(R.id.imu_values);
-        mAccelerometerFilteredView = (CoordinateView)findViewById(R.id.accelerometer_filtered_coordinates);
-        mShakeFilteredView = (ShakesView)findViewById(R.id.shakes_coordinate);
-                
+//        mImuView = (ImuView)findViewById(R.id.imu_values);
+//        mAccelerometerFilteredView = (CoordinateView)findViewById(R.id.accelerometer_filtered_coordinates);
+//        mShakeFilteredView = (ShakesView)findViewById(R.id.shakes_coordinate);
+
         //Show the StartupActivity to connect to Sphero
         startActivityForResult(new Intent(this, StartupActivity.class), sStartupActivity);
+
+
+        Button instructionsBtn = (Button) findViewById(R.id.InstructionsButton);
+        instructionsBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), InstructionActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+        Button startBtn = (Button) findViewById(R.id.StartButton);
+        startBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), GameActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
     }
 
     @Override
