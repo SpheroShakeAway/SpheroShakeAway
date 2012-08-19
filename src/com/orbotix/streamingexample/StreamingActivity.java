@@ -37,7 +37,6 @@ public class StreamingActivity extends Activity
     private Robot mRobot = null;
 
     //The views that will show the streaming data
-    private int shakesCount, shakesCount2 = 0;
     private ChangeScoring scoring;
 
     /**
@@ -72,14 +71,12 @@ public class StreamingActivity extends Activity
                         	
                         	if(shakesThreshold > 4.0){
                         		if(scoring.getTeamScoring() == 1){
-                        			shakesCount += 1;
                         			TextView shakesText = (TextView) findViewById(R.id.ShakesValueRed);
-                        			shakesText.setText(""+shakesCount);
+                        			shakesText.setText("" + scoring.incShakesCountRed());
                         		}
                         		else{
-                        			shakesCount2 += 1;
                         			TextView shakesText = (TextView) findViewById(R.id.ShakesValueBlue);
-                        			shakesText.setText(""+shakesCount2);
+                        			shakesText.setText("" + scoring.incShakesCountBlue());
                         		}
                         	}
                         }
@@ -123,7 +120,6 @@ public class StreamingActivity extends Activity
                 scoring.changeTeamRotationInterval();
             }
         });
-
     }
 
     @Override

@@ -1,63 +1,108 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:configChanges="keyboardHidden|orientation"
+    android:screenOrientation="portrait" >
 
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+    <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/ButtonPadding"
+        android:minWidth="150dp"
+        android:text="Scores"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/ButtonPadding2" />
 
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+    <LinearLayout
+        android:id="@+id/MainScoreLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/TextView02"
+        android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/TextView01"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Blue"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#120A8F"
-                android:textSize="@dimen/TextSize" />
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="53dp"
-                android:text="Red"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#FF0000"
-                android:textSize="@dimen/TextSize" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow2"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:minWidth="300dp" >
 
-            <TextView
-                android:id="@+id/ShakesValueBlue"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/BlueScore"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#120A8F"
-                android:textSize="@dimen/TextSize" />
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/ShakesValueRed"
+                <TextView
+                    android:id="@+id/TextView01"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/ButtonPadding"
+                    android:minWidth="150dp"
+                    android:text="Blue"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#120A8F"
+                    android:textSize="@dimen/TextSize" />
+
+                <TextView
+                    android:id="@+id/ShakesValueBlue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_margin="@dimen/TextSize3"
+                    android:text="@string/BlueScore"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#120A8F"
+                    android:textSize="@dimen/TextSize" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="53dp"
-                android:text="@string/RedScore"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#FF0000"
-                android:textSize="@dimen/TextSize" />
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
 
-        </TableRow>
-    </TableLayout>
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/ButtonPadding"
+                    android:layout_marginBottom="53dp"
+                    android:fitsSystemWindows="false"
+                    android:minWidth="150dp"
+                    android:text="Red"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FF0000"
+                    android:textSize="@dimen/TextSize" />
+
+                <TextView
+                    android:id="@+id/ShakesValueRed"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/TextSize3"
+                    android:text="@string/RedScore"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FF0000"
+                    android:textSize="@dimen/TextSize" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/PlayAgainButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:minWidth="300dp"
+        android:text="Play Again"
+        android:textSize="@dimen/TextSize3" />
 
 </RelativeLayout>

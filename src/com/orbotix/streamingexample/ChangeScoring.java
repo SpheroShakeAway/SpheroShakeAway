@@ -136,11 +136,11 @@ public class ChangeScoring {
 		}
 	}
 
-	public int incShakesCount() {
-		return this.shakesCountRed++;
+	public int incShakesCountRed() {
+		return ++shakesCountRed;
 	}
 
-	public int incShakesCount2() {
-		return this.shakesCountBlue++;
+	public int incShakesCountBlue() {
+		return ++shakesCountBlue;
 	}
 }

@@ -21,7 +21,9 @@
             android:layout_marginTop="49dp"
             android:minHeight="50dp"
             android:minWidth="180dp"
-            android:text="Instructions" />
+            android:text="Instructions"
+            android:textSize="@dimen/TextSize3" />
+
     </FrameLayout>
 
     <ViewSwitcher
@@ -53,51 +55,52 @@
             android:minWidth="180dp"
             android:paddingBottom="@dimen/ButtonPadding"
             android:paddingTop="@dimen/ButtonPadding"
-            android:text="Start" />
+            android:text="Start"
+            android:textSize="@dimen/TextSize3" />
+
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/TitleText1"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerInParent="false"
-        android:layout_centerVertical="false"
-        android:layout_marginLeft="78dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/title_text_1"
-        android:textSize="@dimen/TextSize"
-        app:context=".GameActivity" />
+        android:minHeight="250dp"
+        android:minWidth="300dp" >
 
-    <TextView
-        android:id="@+id/TitleText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentTop="false"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_below="@id/TitleText1"
-        android:layout_centerHorizontal="false"
-        android:layout_centerInParent="false"
-        android:layout_centerVertical="false"
-        android:text="@string/title_text_2"
-        android:textSize="@dimen/TextSize"
-        app:context=".GameActivity" />
+        <TextView
+            android:id="@+id/TitleText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginLeft="78dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/title_text_1"
+            android:textColor="@color/BLUE"
+            android:textSize="@dimen/TextSize"
+            app:context=".GameActivity" />
 
-    <TextView
-        android:id="@+id/TextView02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/TitleText2"
-        android:text="@string/title_text_3"
-        android:textSize="@dimen/TextSize"
-        app:context=".GameActivity" />
+        <TextView
+            android:id="@+id/TitleText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:gravity="left|center_vertical"
+            android:text="@string/title_text_2"
+            android:textColor="@color/BLUE"
+            android:textSize="@dimen/TextSize"
+            app:context=".GameActivity" />
+
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:text="@string/title_text_3"
+            android:textColor="@color/BLUE"
+            android:textSize="@dimen/TextSize"
+            app:context=".GameActivity" />
+
+    </FrameLayout>
     
 </RelativeLayout>

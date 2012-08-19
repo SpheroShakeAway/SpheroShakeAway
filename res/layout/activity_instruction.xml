@@ -25,7 +25,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="26dp"
-        android:text="Next" />
+        android:minWidth="200dp"
+        android:text="Next"
+        android:textSize="@dimen/TextSize3" />
 
     <FrameLayout
         android:layout_width="wrap_content"
