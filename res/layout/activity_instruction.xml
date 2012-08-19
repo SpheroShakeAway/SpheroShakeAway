@@ -3,6 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <TextView
+        android:id="@+id/InstructionsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="false"
+        android:layout_centerVertical="false"
+        android:text="@string/InstructionsHeader"
+        android:textSize="@dimen/TextSize3"
+        android:visibility="visible"
+        tools:context=".InstructionActivity" />
+
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
@@ -40,6 +55,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/InstructionsPage2"
+            android:textSize="@dimen/TextSize2"
+            android:visibility="invisible"
+            tools:context=".InstructionActivity" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/InstructionsPage3"
+            android:textSize="@dimen/TextSize2"
+            android:visibility="invisible"
+            tools:context=".InstructionActivity" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/InstructionsPage4"
+            android:textSize="@dimen/TextSize2"
+            android:visibility="invisible"
+            tools:context=".InstructionActivity" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/InstructionsPage5"
             android:textSize="@dimen/TextSize2"
             android:visibility="invisible"
             tools:context=".InstructionActivity" />

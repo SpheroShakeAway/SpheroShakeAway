@@ -37,7 +37,6 @@ public class StreamingActivity extends Activity
     private Robot mRobot = null;
 
     //The views that will show the streaming data
-//    private ShakesView mShakeFilteredView;
     private int shakesCount, shakesCount2 = 0;
     private ChangeScoring scoring;
 
@@ -74,7 +73,6 @@ public class StreamingActivity extends Activity
                         	if(shakesThreshold > 4.0){
                         		if(scoring.getTeamScoring() == 1){
                         			shakesCount += 1;
-//                        			inflate(this, R.layout.activity_game, findViewById(R.id.));
                         			TextView shakesText = (TextView) findViewById(R.id.ShakesValueRed);
                         			shakesText.setText(""+shakesCount);
                         		}
@@ -98,10 +96,6 @@ public class StreamingActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main1);
-
-        //Get important views
- //       mShakeFilteredView = (ShakesView)findViewById(R.id.shakes_coordinate);
-        //Show the StartupActivity to connect to Sphero    
         
         startActivityForResult(new Intent(this, StartupActivity.class), sStartupActivity);
 
@@ -115,14 +109,7 @@ public class StreamingActivity extends Activity
         Button startBtn = (Button) findViewById(R.id.StartButton);
         startBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //Intent myIntent = new Intent(view.getContext(), GameActivity.class);
-                //mImuView = (ImuView)findViewById(R.id.imu_values);
-                //mAccelerometerFilteredView = (CoordinateView)findViewById(R.id.accelerometer_filtered_coordinates);
-   //             RGBLEDOutputCommand.sendCommand(mRobot, 255, 0, 0);
                 setContentView(R.layout.activity_game);
-
-                
-                //mShakeFilteredView = (ShakesView)findViewById(R.id.shakes_coordinate);
                 
                 //Set the AsyncDataListener that will process each response.
                 DeviceMessenger.getInstance().addAsyncDataListener(mRobot, mDataListener);

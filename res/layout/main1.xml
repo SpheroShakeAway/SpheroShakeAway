@@ -99,14 +99,5 @@
         android:text="@string/title_text_3"
         android:textSize="@dimen/TextSize"
         app:context=".GameActivity" />
-
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/StartLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
-        android:src="@android:drawable/bottom_bar" />
     
 </RelativeLayout>

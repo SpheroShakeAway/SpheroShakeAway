@@ -4,4 +4,5 @@
     <dimen name="ButtonPadding2">100px</dimen>
     <dimen name="TextSize">60dp</dimen>
     <dimen name="TextSize2">25dp</dimen>
+    <dimen name="TextSize3">40dp</dimen>
 </resources>
