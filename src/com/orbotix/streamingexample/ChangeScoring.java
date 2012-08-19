@@ -98,6 +98,8 @@ public class ChangeScoring {
 	 */
 	private void blinkEndGame(final boolean lit, final int winningTeam) {
 		DeviceMessenger.getInstance().removeAsyncDataListener(mRobot, listener);
+
+		System.out.println("Blink End Game Called");
 		if (mRobot != null) {
 
 			// If not lit, send command to show blue light, or else, send
