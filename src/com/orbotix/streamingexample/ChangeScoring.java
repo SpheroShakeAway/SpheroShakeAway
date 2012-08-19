@@ -20,8 +20,9 @@ public class ChangeScoring {
 	private Robot mRobot = null;
 	private boolean colorState = true;
 	private DeviceMessenger.AsyncDataListener listener = null;
-	private MacroObject pulseMacro;
-	private int shakesCount, shakesCount2 = 0;
+	private MacroObject pulseMacro, pulseMacroWinner;
+	private int shakesCountRed, shakesCountBlue = 0;
+	private int BLUE_TEAM=2, RED_TEAM=1;
 
 	public ChangeScoring(Robot robot, DeviceMessenger.AsyncDataListener hear) {
 		mRobot = robot;
@@ -36,7 +37,6 @@ public class ChangeScoring {
 		pulseMacro.addCommand(new RawMotor(RawMotor.DriveMode.FORWARD, 0,
 				RawMotor.DriveMode.FORWARD, 0, 0));
 		pulseMacro.setMode(MacroObjectMode.Normal);
-
 	}
 
 	public int getTeamScoring() {
@@ -77,10 +77,10 @@ public class ChangeScoring {
 
 	private int getWinner() {
 		// TODO Auto-generated method stub
-		if (this.shakesCount > this.shakesCount2)
-			return 1;
+		if (this.shakesCountRed > this.shakesCountBlue)
+			return RED_TEAM;
 		else
-			return 2;
+			return BLUE_TEAM;
 	}
 
 	public void initializeGame() {
@@ -104,11 +104,28 @@ public class ChangeScoring {
 
 			// If not lit, send command to show blue light, or else, send
 			// command to show no light
-			if (lit) {
-				RGBLEDOutputCommand.sendCommand(mRobot, 0, 0, 0);
-			} else {
-				RGBLEDOutputCommand.sendCommand(mRobot, 0, 0, 255);
+			if(winningTeam == BLUE_TEAM){
+				pulseMacroWinner = new MacroObject();
+				pulseMacroWinner.setRobot(mRobot);
+				pulseMacroWinner.addCommand(new RawMotor(RawMotor.DriveMode.FORWARD, 255,
+						RawMotor.DriveMode.FORWARD, 255, 0));
+				pulseMacroWinner.addCommand(new Delay(5000));
+
+				pulseMacroWinner.addCommand( new RGB(0, 0, 255, 0));
 			}
+			else{
+				pulseMacroWinner = new MacroObject();
+				pulseMacroWinner.setRobot(mRobot);
+				pulseMacroWinner.addCommand(new RawMotor(RawMotor.DriveMode.FORWARD, 255,
+						RawMotor.DriveMode.FORWARD, 255, 0));
+				pulseMacroWinner.addCommand(new Delay(5000));
+				pulseMacroWinner.addCommand( new RGB(255, 0, 0, 0));
+
+				//RGBLEDOutputCommand.sendCommand(mRobot, 255, 0, 0);
+			}
+
+
+			pulseMacroWinner.playMacro();
 
 			// Send delayed message on a handler to run blink again
 			final Handler handler = new Handler();
@@ -121,10 +138,10 @@ public class ChangeScoring {
 	}
 
 	public int incShakesCount() {
-		return this.shakesCount++;
+		return this.shakesCountRed++;
 	}
 
 	public int incShakesCount2() {
-		return this.shakesCount2++;
+		return this.shakesCountBlue++;
 	}
 }
