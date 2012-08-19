@@ -23,6 +23,7 @@ public class ChangeScoring {
 	private MacroObject pulseMacro, pulseMacroWinner;
 	private int shakesCountRed, shakesCountBlue = 0;
 	private int BLUE_TEAM=2, RED_TEAM=1;
+	private boolean gameFinished = false;
 
 	public ChangeScoring(Robot robot, DeviceMessenger.AsyncDataListener hear) {
 		mRobot = robot;
@@ -52,10 +53,14 @@ public class ChangeScoring {
 				System.out.println("Sphero: Change Team2");
 				pulseMacro.playMacro();
 				if (colorState) {
+					if(!gameFinished){
 					RGBLEDOutputCommand.sendCommand(mRobot, 0, 0, 255);
+					}
 					colorState = false;
 				} else {
+					if(!gameFinished){
 					RGBLEDOutputCommand.sendCommand(mRobot, 255, 0, 0);
+					}
 					colorState = true;
 				}
 			}
@@ -98,8 +103,9 @@ public class ChangeScoring {
 	 */
 	private void blinkEndGame(final boolean lit, final int winningTeam) {
 		DeviceMessenger.getInstance().removeAsyncDataListener(mRobot, listener);
-
+		RGBLEDOutputCommand.sendCommand(mRobot, 0, 255, 0);
 		System.out.println("Blink End Game Called");
+		gameFinished = true;
 		if (mRobot != null) {
 
 			// If not lit, send command to show blue light, or else, send
@@ -111,8 +117,10 @@ public class ChangeScoring {
 				pulseMacroWinner.addCommand(new RawMotor(RawMotor.DriveMode.FORWARD, 255,
 						RawMotor.DriveMode.FORWARD, 255, 0));
 				pulseMacroWinner.addCommand(new Delay(5000));
+				
+				RGBLEDOutputCommand.sendCommand(mRobot, 0, 0, 255);
 			}
-			else{
+			if (winningTeam == RED_TEAM){
 				pulseMacroWinner = new MacroObject();
 				pulseMacroWinner.setRobot(mRobot);
 				pulseMacroWinner.addCommand( new RGB(255, 0, 0, 0));
@@ -120,9 +128,8 @@ public class ChangeScoring {
 						RawMotor.DriveMode.FORWARD, 255, 0));
 				pulseMacroWinner.addCommand(new Delay(5000));
 
-				//RGBLEDOutputCommand.sendCommand(mRobot, 255, 0, 0);
+				RGBLEDOutputCommand.sendCommand(mRobot, 255, 0, 0);
 			}
-
 
 			pulseMacroWinner.playMacro();
 
