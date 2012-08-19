@@ -41,7 +41,7 @@ public class ShakesView extends RelativeLayout {
     }
     
     public void setShakesCount2(String text){
-        shakesCount.setText(text);
+        shakesCount2.setText(text);
     }
     
 }

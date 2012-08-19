@@ -131,12 +131,15 @@ public class StreamingActivity extends Activity
                 mRobot = RobotProvider.getDefaultProvider().findRobot(id);
 
                 requestDataStreaming();
-
+                
+                
                 scoring = new ChangeScoring(mRobot);
+                
+                scoring.initializeGame();
+                
+                scoring.changeTeamRotationInterval();
 
-                scoring.changeTeams();
-
-                RGBLEDOutputCommand.sendCommand(mRobot, 255, 0, 0);
+//                RGBLEDOutputCommand.sendCommand(mRobot, 255, 0, 0);
 
                 //Set the AsyncDataListener that will process each response.
                 DeviceMessenger.getInstance().addAsyncDataListener(mRobot, mDataListener);
