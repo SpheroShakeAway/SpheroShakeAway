@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import orbotix.robot.app.StartupActivity;
 import orbotix.robot.base.*;
 import orbotix.robot.sensor.AccelerometerData;
@@ -36,7 +37,7 @@ public class StreamingActivity extends Activity
     private Robot mRobot = null;
 
     //The views that will show the streaming data
-    private ShakesView mShakeFilteredView;
+//    private ShakesView mShakeFilteredView;
     private int shakesCount, shakesCount2 = 0;
     private ChangeScoring scoring;
 
@@ -73,14 +74,15 @@ public class StreamingActivity extends Activity
                         	if(shakesThreshold > 4.0){
                         		if(scoring.getTeamScoring() == 1){
                         			shakesCount += 1;
-                        			mShakeFilteredView.setShakesCount(""+shakesCount);
+//                        			inflate(this, R.layout.activity_game, findViewById(R.id.));
+                        			TextView shakesText = (TextView) findViewById(R.id.ShakesValueRed);
+                        			shakesText.setText(""+shakesCount);
                         		}
                         		else{
                         			shakesCount2 += 1;
-                        			mShakeFilteredView.setShakesCount2(""+shakesCount2);
+                        			TextView shakesText = (TextView) findViewById(R.id.ShakesValueBlue);
+                        			shakesText.setText(""+shakesCount2);
                         		}
-                        		System.out.println("Shakes: "+shakesCount);   
-                        		System.out.println("Shakes2: "+shakesCount2);   
                         	}
                         }
                     }
@@ -89,19 +91,19 @@ public class StreamingActivity extends Activity
         }
     };
 
-    //1000*60*60*24
-    private final static long TIMER_CHANGE = 1000*60*60*24;
-    private Object contextClass;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main1);
-       
-        //Show the StartupActivity to connect to Sphero            
-        contextClass = this;
-        //startActivityForResult(new Intent(this, StartupActivity.class), 9);
+
+        //Get important views
+ //       mShakeFilteredView = (ShakesView)findViewById(R.id.shakes_coordinate);
+        //Show the StartupActivity to connect to Sphero    
+        
+        startActivityForResult(new Intent(this, StartupActivity.class), sStartupActivity);
 
         Button instructionsBtn = (Button) findViewById(R.id.InstructionsButton);
         instructionsBtn.setOnClickListener(new View.OnClickListener() {
@@ -113,13 +115,25 @@ public class StreamingActivity extends Activity
         Button startBtn = (Button) findViewById(R.id.StartButton);
         startBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                setContentView(R.layout.main);
-                
-                mShakeFilteredView = (ShakesView)findViewById(R.id.shakes_coordinate);
-                
-                //Show the StartupActivity to connect to Sphero        
-                startActivityForResult(new Intent((Context) contextClass, StartupActivity.class), sStartupActivity);
+                //Intent myIntent = new Intent(view.getContext(), GameActivity.class);
+                //mImuView = (ImuView)findViewById(R.id.imu_values);
+                //mAccelerometerFilteredView = (CoordinateView)findViewById(R.id.accelerometer_filtered_coordinates);
+   //             RGBLEDOutputCommand.sendCommand(mRobot, 255, 0, 0);
+                setContentView(R.layout.activity_game);
 
+                
+                //mShakeFilteredView = (ShakesView)findViewById(R.id.shakes_coordinate);
+                
+                //Set the AsyncDataListener that will process each response.
+                DeviceMessenger.getInstance().addAsyncDataListener(mRobot, mDataListener);
+
+                StabilizationCommand.sendCommand(mRobot, false);
+                
+                requestDataStreaming();
+                
+                scoring = new ChangeScoring(mRobot, mDataListener);
+                scoring.initializeGame();
+                scoring.changeTeamRotationInterval();
             }
         });
 
@@ -135,28 +149,12 @@ public class StreamingActivity extends Activity
 
                 //Get the Robot from the StartupActivity
             	if(mRobot == null){
-                String id = data.getStringExtra(StartupActivity.EXTRA_ROBOT_ID);
-                mRobot = RobotProvider.getDefaultProvider().findRobot(id);
+            		String id = data.getStringExtra(StartupActivity.EXTRA_ROBOT_ID);
+            		mRobot = RobotProvider.getDefaultProvider().findRobot(id);
             	}
-                requestDataStreaming();
-                
-                
-                scoring = new ChangeScoring(mRobot, mDataListener);
-                
-                scoring.initializeGame();
-                
-                scoring.changeTeamRotationInterval();
-
-//                RGBLEDOutputCommand.sendCommand(mRobot, 255, 0, 0);
-
-                //Set the AsyncDataListener that will process each response.
-                DeviceMessenger.getInstance().addAsyncDataListener(mRobot, mDataListener);
-
-                StabilizationCommand.sendCommand(mRobot, false);
                 
                 //FrontLEDOutputCommand.sendCommand(mRobot, 1f);
 
-                
                 //DeviceMessenger.getInstance().removeAsyncDataListener(robot, dataListener)
                 //RawMotorCommand.sendCommand(mRobot, RawMotorCommand.MOTOR_MODE_FORWARD, 255, RawMotorCommand.MOTOR_MODE_FORWARD, 255);
             }
