@@ -24,7 +24,6 @@ public class InstructionActivity extends Activity {
                 setResult(RESULT_OK, intent);
                 nextInstruction();
             }
-
         });
         
     }

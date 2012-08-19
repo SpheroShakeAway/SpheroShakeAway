@@ -73,11 +73,11 @@ public class StreamingActivity extends Activity
                         	if(shakesThreshold > 4.0){
                         		if(scoring.getTeamScoring() == 1){
                         			shakesCount += 1;
-//                        			mShakeFilteredView.setShakesCount(""+shakesCount);
+                        			mShakeFilteredView.setShakesCount(""+shakesCount);
                         		}
                         		else{
                         			shakesCount2 += 1;
-//                        			mShakeFilteredView.setShakesCount2(""+shakesCount2);
+                        			mShakeFilteredView.setShakesCount2(""+shakesCount2);
                         		}
                         		System.out.println("Shakes: "+shakesCount);   
                         		System.out.println("Shakes2: "+shakesCount2);   
@@ -98,18 +98,10 @@ public class StreamingActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main1);
-
-        //perform the task once a day at 4 a.m., starting tomorrow morning
-        //(other styles are possible as well)
-
-        //Get important views
-//        mImuView = (ImuView)findViewById(R.id.imu_values);
-//        mAccelerometerFilteredView = (CoordinateView)findViewById(R.id.accelerometer_filtered_coordinates);
-        mShakeFilteredView = (ShakesView)findViewById(R.id.shakes_coordinate);
-        //Show the StartupActivity to connect to Sphero    
-        
+       
+        //Show the StartupActivity to connect to Sphero            
         contextClass = this;
-//        startActivityForResult(new Intent(this, StartupActivity.class), 9);
+        //startActivityForResult(new Intent(this, StartupActivity.class), 9);
 
         Button instructionsBtn = (Button) findViewById(R.id.InstructionsButton);
         instructionsBtn.setOnClickListener(new View.OnClickListener() {
@@ -121,12 +113,9 @@ public class StreamingActivity extends Activity
         Button startBtn = (Button) findViewById(R.id.StartButton);
         startBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //Intent myIntent = new Intent(view.getContext(), GameActivity.class);
-                //mImuView = (ImuView)findViewById(R.id.imu_values);
-                //mAccelerometerFilteredView = (CoordinateView)findViewById(R.id.accelerometer_filtered_coordinates);
                 setContentView(R.layout.main);
                 
-  //              mShakeFilteredView = (ShakesView)findViewById(R.id.shakes_coordinate);
+                mShakeFilteredView = (ShakesView)findViewById(R.id.shakes_coordinate);
                 
                 //Show the StartupActivity to connect to Sphero        
                 startActivityForResult(new Intent((Context) contextClass, StartupActivity.class), sStartupActivity);
