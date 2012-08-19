@@ -7,41 +7,42 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
- * Created by Orbotix Inc.
- * Date: 4/30/12
- *
+ * Created by Orbotix Inc. Date: 4/30/12
+ * 
  * @author Adam Williams
  */
 public class ShakesView extends RelativeLayout {
 
-    private TextView shakesCount;
-    private TextView shakesCount2;
-    
-    public ShakesView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+	private TextView shakesCount;
+	private TextView shakesCount2;
 
-        inflate(context, R.layout.shakes_view, this);
+	public ShakesView(Context context, AttributeSet attrs) {
+		super(context, attrs);
 
-        shakesCount = (TextView)findViewById(R.id.shakes_value);
-        shakesCount2 = (TextView)findViewById(R.id.shakes_value2);
+		inflate(context, R.layout.shakes_view, this);
 
-        if(attrs != null){
+		shakesCount = (TextView) findViewById(R.id.shakes_value);
+		shakesCount2 = (TextView) findViewById(R.id.shakes_value2);
 
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ShakesView);
+		if (attrs != null) {
 
-            if(a.hasValue(R.styleable.ShakesView_android_text)){
-                setShakesCount(a.getString(R.styleable.ShakesView_android_text));
-                setShakesCount2(a.getString(R.styleable.ShakesView_android_text));
-            }
-        }
-    }
+			TypedArray a = context.obtainStyledAttributes(attrs,
+					R.styleable.ShakesView);
 
-    public void setShakesCount(String text){
-        shakesCount.setText(text);
-    }
-    
-    public void setShakesCount2(String text){
-        shakesCount2.setText(text);
-    }
-    
+			if (a.hasValue(R.styleable.ShakesView_android_text)) {
+				setShakesCount(a.getString(R.styleable.ShakesView_android_text));
+				setShakesCount2(a
+						.getString(R.styleable.ShakesView_android_text));
+			}
+		}
+	}
+
+	public void setShakesCount(String text) {
+		shakesCount.setText(text);
+	}
+
+	public void setShakesCount2(String text) {
+		shakesCount2.setText(text);
+	}
+
 }
