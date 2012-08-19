@@ -5,11 +5,14 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import android.os.Handler;
+
 import orbotix.macro.Delay;
 import orbotix.macro.MacroObject;
 import orbotix.macro.RGB;
 import orbotix.macro.RawMotor;
 import orbotix.macro.MacroObject.MacroObjectMode;
+import orbotix.robot.base.DeviceMessenger;
 import orbotix.robot.base.RGBLEDOutputCommand;
 import orbotix.robot.base.RawMotorCommand;
 import orbotix.robot.base.Robot;
@@ -18,11 +21,13 @@ public class ChangeScoring {
 
 	private Robot mRobot = null;
 	private boolean colorState = true;
-
+	private DeviceMessenger.AsyncDataListener listener = null;
 	private MacroObject pulseMacro;
-
-	public ChangeScoring(Robot robot) {
+	private int shakesCount, shakesCount2 = 0;
+	
+	public ChangeScoring(Robot robot, DeviceMessenger.AsyncDataListener hear) {
 		mRobot = robot;
+		listener = hear;
 
 		pulseMacro = new MacroObject();
 		pulseMacro.setRobot(mRobot);
@@ -60,11 +65,14 @@ public class ChangeScoring {
 
 		final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(
 				beeper, 10, 10, TimeUnit.SECONDS);
+		
 		scheduler.schedule(new Runnable() {
 			public void run() {
+				
 				beeperHandle.cancel(true);
+			
 			}
-		}, 60 * 60, TimeUnit.SECONDS);
+		},  1 * 60, TimeUnit.SECONDS);
 	}
 
 	public void initializeGame() {
@@ -73,5 +81,46 @@ public class ChangeScoring {
 
 		pulseMacro.playMacro();
 
+	}
+	
+    /**
+     * Causes the robot to blink once every second.
+     * @param lit
+     */
+    private void blinkEndGame(final boolean lit){
+    	DeviceMessenger.getInstance().removeAsyncDataListener(mRobot, listener);
+        if(mRobot != null){
+            
+            //If not lit, send command to show blue light, or else, send command to show no light
+            if(lit){
+                RGBLEDOutputCommand.sendCommand(mRobot, 0, 0, 0);
+            }else{
+                RGBLEDOutputCommand.sendCommand(mRobot, 0, 0, 255);
+            }
+            
+            //Send delayed message on a handler to run blink again
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    blinkEndGame(!lit);
+                }
+            }, 1000);
+        }
+    }
+
+	public int getShakesCount() {
+		return shakesCount;
+	}
+
+	public void setShakesCount(int shakesCount) {
+		this.shakesCount = shakesCount;
+	}
+
+	public int getShakesCount2() {
+		return shakesCount2;
+	}
+
+	public void setShakesCount2(int shakesCount2) {
+		this.shakesCount2 = shakesCount2;
 	}
 }

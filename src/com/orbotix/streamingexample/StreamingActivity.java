@@ -39,6 +39,14 @@ public class StreamingActivity extends Activity
     private int shakesCount, shakesCount2 = 0;
     private ChangeScoring scoring;
 
+    public int getTeam1Score(){
+    	return shakesCount;
+    }
+    
+    public int getTeam2Score(){
+    	return shakesCount2;
+    }
+    
     /**
      * AsyncDataListener that will be assigned to the DeviceMessager, listen for streaming data, and then do the
      */
@@ -133,7 +141,7 @@ public class StreamingActivity extends Activity
                 requestDataStreaming();
                 
                 
-                scoring = new ChangeScoring(mRobot);
+                scoring = new ChangeScoring(mRobot, mDataListener);
                 
                 scoring.initializeGame();
                 
@@ -148,6 +156,8 @@ public class StreamingActivity extends Activity
                 
                 FrontLEDOutputCommand.sendCommand(mRobot, 1f);
 
+                
+                //DeviceMessenger.getInstance().removeAsyncDataListener(robot, dataListener)
                 //RawMotorCommand.sendCommand(mRobot, RawMotorCommand.MOTOR_MODE_FORWARD, 255, RawMotorCommand.MOTOR_MODE_FORWARD, 255);
             }
         }
