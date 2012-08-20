@@ -18,15 +18,22 @@ public class GameActivity extends Activity {
         setContentView(R.layout.activity_game);
 
 		Bundle b = getIntent().getExtras();
-		String robotId = b.getString(StartupActivity.EXTRA_ROBOT_ID);
-        mRobot = RobotProvider.getDefaultProvider().findRobot(robotId);
+		if (b != null)
+		{
+			String robotId = b.getString(StartupActivity.EXTRA_ROBOT_ID);
+	        mRobot = RobotProvider.getDefaultProvider().findRobot(robotId);	
+		}
     }
     
     @Override
     public void onStart()
     {
-	    Game game = new Game(mRobot.getUniqueId(), 60);
-	    game.startGame();
+    	super.onStart();
+    	if (mRobot != null)
+    	{
+    	    Game game = new Game(mRobot.getUniqueId(), 60);
+    	    game.startGame();	
+    	}
 		
         Button startBtn = (Button) findViewById(R.id.PlayAgainButton);
         startBtn.setOnClickListener(new View.OnClickListener() {
