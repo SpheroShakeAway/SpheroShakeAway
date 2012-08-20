@@ -45,8 +45,11 @@ public class ShakeawayActivity extends Activity
             public void onClick(View view) {
         		Intent intent = new Intent(view.getContext(), GameActivity.class);
         		Bundle b = new Bundle();
-        		b.putString(StartupActivity.EXTRA_ROBOT_ID, mRobot.getUniqueId()); //Your id
-        		intent.putExtras(b); //Put your id to your next Intent
+        		if (mRobot != null)
+        		{
+            		b.putString(StartupActivity.EXTRA_ROBOT_ID, mRobot.getUniqueId()); //Your id
+            		intent.putExtras(b); //Put your id to your next Intent	
+        		}
         		startActivity(intent);
         		finish();
             }
