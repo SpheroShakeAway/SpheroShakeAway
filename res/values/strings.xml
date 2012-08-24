@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">StreamingExample</string>
+    <string name="app_name">Sphero Shake Away</string>
 
     <!-- Values -->
     <string name="gyro">Gyro:</string>
@@ -24,7 +24,6 @@
     <string name="InstructionsPage4">4. When the Sphero changes colors, throw it into another part of the pool as soon as you notice, so the other team can get it.</string>
     <string name="InstructionsPage4Disclaimer">Note: make sure the Sphero lands in the water.</string>
     <string name="InstructionsPage5">5. The first team to 50 points is the winner! The winner\'s color will flash on the Sphero when the game ends.</string>
-        <string name="app_name">Sphero Pool Throw Away</string>
     <string name="hello_world">Instructions</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_instruction">InstructionActivity</string>
