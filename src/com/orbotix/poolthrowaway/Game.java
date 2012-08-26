@@ -1,7 +1,12 @@
 package com.orbotix.poolthrowaway;
 
 import java.util.Date;
+
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import orbotix.macro.Delay;
 import orbotix.macro.MacroObject;
@@ -23,78 +28,89 @@ import orbotix.robot.sensor.DeviceSensorsData;
 import android.app.Activity;
 import android.widget.TextView;
 
-public class Game extends Activity {
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.content.Context;
+
+public class Game {
 
 	private Robot mRobot = null;
-	private MacroObject pulseMacroWinner;
+	private MacroObject blinkMacroWinner, pulseMacroChange;
 	private Team blueTeam, redTeam, currentTeam;
 	private long gameLengthInSeconds_;
-	
-	private static long MILLIS_PER_SECOND = 1000;
-    /**
-     * Data Streaming Packet Counts
-     */
-    private final static int TOTAL_PACKET_COUNT = 200;
-    private final static int PACKET_COUNT_THRESHOLD = 50;
-    private int mPacketCounter;
-    
-    /**
-     * AsyncDataListener that will be assigned to the DeviceMessager, listen for streaming data, and update the score
-     */
-    private DeviceMessenger.AsyncDataListener mDataListener = new DeviceMessenger.AsyncDataListener() {
-        @Override
-        public void onDataReceived(DeviceAsyncData data) {
-        	
-            if(data instanceof DeviceSensorsAsyncData){
+	private boolean gameFinishedFlag = false;
+	private TextView shakesBlueText, shakesRedText, timerText;
 
-            	// If we are getting close to packet limit, request more
-            	mPacketCounter++;
-            	if( mPacketCounter > (TOTAL_PACKET_COUNT - PACKET_COUNT_THRESHOLD) ) {
-            		requestDataStreaming();
-            	}
-            	
-                //get the frames in the response
-                List<DeviceSensorsData> data_list = ((DeviceSensorsAsyncData)data).getAsyncData();
-                if(data_list != null){
+	/**
+	 * Data Streaming Packet Counts
+	 */
+	private final static int TOTAL_PACKET_COUNT = 200;
+	private final static int PACKET_COUNT_THRESHOLD = 50;
+	private int mPacketCounter;
+	private int timeLeft = 0;
 
-                    //Iterate over each frame
-                    for(DeviceSensorsData datum : data_list){
+	/**
+	 * AsyncDataListener that will be assigned to the DeviceMessager, listen for streaming data, and update the score
+	 */
+	private DeviceMessenger.AsyncDataListener mDataListener = new DeviceMessenger.AsyncDataListener() {
+		@Override
+		public void onDataReceived(DeviceAsyncData data) {
 
-                        //Show attitude data
-                        AttitudeData attitude = datum.getAttitudeData();
+			if(data instanceof DeviceSensorsAsyncData){
 
-                        //Show accelerometer data
-                        AccelerometerData accel = datum.getAccelerometerData();
-                        if(attitude != null){
-                        	double shakesThreshold = accel.getFilteredAcceleration().x + accel.getFilteredAcceleration().y + accel.getFilteredAcceleration().z;
-                        	
-                        	if(shakesThreshold > 4.0){
-                        		incrementCurrentTeam();
-                        		TextView shakesText = (TextView) findViewById(R.id.ShakesValueBlue);
-                        		shakesText.setText("" + getBlueScore());
-                        		TextView shakesText2 = (TextView) findViewById(R.id.ShakesValueRed);
-                        		shakesText2.setText("" + getRedScore());
-                        	}
-                        }
-                    }
-                }
-            }
-        }
-    };
-	
+				// If we are getting close to packet limit, request more
+				mPacketCounter++;
+				if( mPacketCounter > (TOTAL_PACKET_COUNT - PACKET_COUNT_THRESHOLD) ) {
+					requestDataStreaming();
+				}
 
-	public Game (String robotId, int gameLength) {
-        mRobot = RobotProvider.getDefaultProvider().findRobot(robotId);
+				//get the frames in the response
+				List<DeviceSensorsData> data_list = ((DeviceSensorsAsyncData)data).getAsyncData();
+				if(data_list != null){
+					//Iterate over each frame
+					for(DeviceSensorsData datum : data_list){
+
+						//Show attitude data
+						AttitudeData attitude = datum.getAttitudeData();
+
+						//Show accelerometer data
+						AccelerometerData accel = datum.getAccelerometerData();
+						if(attitude != null){
+							double shakesThreshold = accel.getFilteredAcceleration().x + accel.getFilteredAcceleration().y + accel.getFilteredAcceleration().z;
+
+							if(shakesThreshold > 4.0){
+								System.out.println("Juan: Scored!");
+								
+								incrementCurrentTeam();
+								shakesRedText.setText(""+ getBlueScore());
+								shakesBlueText.setText(""+ getRedScore());
+							}
+						}
+					}
+				}
+			}
+		}
+	};
+
+	public Game (TextView blueText, TextView redText, TextView timerTextEntry, String robotId, int gameLength) {
+		mRobot = RobotProvider.getDefaultProvider().findRobot(robotId);
 		gameLengthInSeconds_ = gameLength;
+		timeLeft = gameLength;
 		
 		blueTeam = new Team(0, 0, 255);
 		redTeam = new Team(255, 0, 0);
 		currentTeam = redTeam; // TODO: Randomize
-        
-        //Set the AsyncDataListener that will process each response.
-        DeviceMessenger.getInstance().addAsyncDataListener(mRobot, mDataListener);
 
-        StabilizationCommand.sendCommand(mRobot, false);		
+		pulseMacroChange = makePulseMacro(mRobot, new RGB(255, 255, 255, 0));
+
+		//Set the AsyncDataListener that will process each response.
+		DeviceMessenger.getInstance().addAsyncDataListener(mRobot, mDataListener);
+		
+		shakesBlueText = blueText;
+		shakesRedText = redText;
+		timerText = timerTextEntry;
+		
+		StabilizationCommand.sendCommand(mRobot, false);		
 	}
 
 	private MacroObject makePulseMacro(Robot robot, RGB color)
@@ -107,67 +123,93 @@ public class Game extends Activity {
 		m.addCommand(new Delay(5000));
 		m.addCommand(new RawMotor(RawMotor.DriveMode.FORWARD, 0,
 				RawMotor.DriveMode.FORWARD, 0, 0));
-		m.setMode(MacroObjectMode.Normal);
+		m.setMode(MacroObjectMode.Normal);		
 		return m;
 	}
-	
-	public void startGame() {		
-		currentTeam = redTeam;
-		Date startTime = new Date();
-		Date currentTime = new Date();
-		
-		while ((currentTime.getTime() - startTime.getTime()) < (gameLengthInSeconds_ * MILLIS_PER_SECOND))
-		{
-			//Spin to signify turn change
-			RGBLEDOutputCommand.sendCommand(mRobot, 255, 255, 255);
-			RawMotorCommand.sendCommand(mRobot, RawMotorCommand.MOTOR_MODE_FORWARD, 255, RawMotorCommand.MOTOR_MODE_FORWARD, 255);
-			
-			try {
-				Thread.sleep(5 * MILLIS_PER_SECOND);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 
-			RawMotorCommand.sendCommand(mRobot, RawMotorCommand.MOTOR_MODE_FORWARD, 0, RawMotorCommand.MOTOR_MODE_FORWARD, 0);			
-			//Display current team's color
-
-			RGBLEDOutputCommand.sendCommand(mRobot, currentTeam.r_, currentTeam.g_, currentTeam.b_);
-			
-			try {
-				Thread.sleep(5 * MILLIS_PER_SECOND);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			//Change teams
-			if (currentTeam == redTeam)
-				currentTeam = blueTeam;
-			else
-				currentTeam = redTeam;
-
-			currentTime = new Date();
-		}
-		blinkEndGame();
+	public boolean isFinished()
+	{
+		return gameFinishedFlag;
 	}
 
+	private final ScheduledExecutorService scheduler = Executors
+			.newScheduledThreadPool(2);
+
+	private final ScheduledExecutorService scheduler2 = Executors
+			.newScheduledThreadPool(2);
+	
+	public void startGame() {
+		
+		requestDataStreaming();
+		
+		final Runnable beeper = new Runnable() {
+			public void run() {
+				
+				if(mRobot == null){
+					//TODO Add reconnection logic										
+					System.out.println("Juan: null robot Game logic broken!");
+					return;
+				}
+
+				pulseMacroChange.playMacro();							
+
+				//Display current team's color
+				if(!isFinished()){
+					RGBLEDOutputCommand.sendCommand(mRobot, currentTeam.r_, currentTeam.g_, currentTeam.b_);
+				}
+				
+				//Change teams
+				if (currentTeam == redTeam)
+					currentTeam = blueTeam;
+				else
+					currentTeam = redTeam;
+			}
+		};
+		
+		final Runnable beeper2 = new Runnable() {
+			public void run() {
+				updateTimer();
+			}
+		};
+
+		final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(
+				beeper, 0, 10, TimeUnit.SECONDS);
+
+		final ScheduledFuture<?> beeperHandle2 = scheduler2.scheduleAtFixedRate(
+				beeper2, 0, 1, TimeUnit.SECONDS);
+
+		scheduler.schedule(new Runnable() {
+			public void run() {		
+				beeperHandle.cancel(true);
+				blinkEndGame();
+			}
+
+		}, 1 * gameLengthInSeconds_, TimeUnit.SECONDS);
+	}
+	
+	private void updateTimer(){
+		timeLeft = timeLeft - 1;
+		timerText.setText(""+timeLeft);
+	}
+	
 	private Team getWinner() {
 		if (redTeam.getScore() > blueTeam.getScore())
 			return redTeam;
 		else
 			return blueTeam;
 	}
-	
+
 	public void incrementCurrentTeam()
 	{
 		currentTeam.getIncrementedScore();
 	}
-	
+
 	public int getBlueScore()
 	{
 		System.out.println(blueTeam.getScore());
 		return blueTeam.getScore();
 	}
-	
+
 	public int getRedScore()
 	{
 		System.out.println(redTeam.getScore());
@@ -180,14 +222,39 @@ public class Game extends Activity {
 	 * @param lit
 	 */
 	private void blinkEndGame() {
-		if (mRobot != null) {
-			pulseMacroWinner = makePulseMacro(mRobot, getWinner().getColor());
-			pulseMacroWinner.playMacro();
-		}
+		gameFinishedFlag = true;
 		DeviceMessenger.getInstance().removeAsyncDataListener(mRobot, mDataListener);
+	
+		if (mRobot != null) {
+			blink(false);
+		}
 	}
-	
-	
+
+	/**
+     * Causes the robot to blink once every second.
+     * @param lit
+     */
+    private void blink(final boolean lit){
+        
+        if(mRobot != null){
+            
+            //If not lit, send command to show blue light, or else, send command to show no light
+            if(lit){
+                RGBLEDOutputCommand.sendCommand(mRobot, 0, 0, 0);
+            }else{
+                RGBLEDOutputCommand.sendCommand(mRobot, 0, 0, 255);
+            }
+            
+            //Send delayed message on a handler to run blink again
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    blink(!lit);
+                }
+            }, 1000);
+        }
+    }
+
 	private void requestDataStreaming() {
 
 		if(mRobot != null){
@@ -215,5 +282,10 @@ public class Game extends Activity {
 			//Send this command to Sphero to start streaming
 			SetDataStreamingCommand.sendCommand(mRobot, divisor, packet_frames, mask, response_count);
 		}
+		else{
+			//TODO handle not listening error: null robot
+			System.out.println("Juan: Cannot listen to async stream.");
+		}
 	}
+	
 }
