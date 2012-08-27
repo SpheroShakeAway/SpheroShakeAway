@@ -48,6 +48,14 @@ public class Game {
 	private final static int PACKET_COUNT_THRESHOLD = 50;
 	private int mPacketCounter;
 	private int timeLeft = 0;
+	
+	/*
+	 * Schedulers
+	 */
+	private final ScheduledExecutorService scheduler = Executors
+			.newScheduledThreadPool(2);
+	private final ScheduledExecutorService scheduler2 = Executors
+			.newScheduledThreadPool(2);
 
 	/**
 	 * AsyncDataListener that will be assigned to the DeviceMessager, listen for streaming data, and update the score
@@ -79,16 +87,15 @@ public class Game {
 							double shakesThreshold = accel.getFilteredAcceleration().x + accel.getFilteredAcceleration().y + accel.getFilteredAcceleration().z;
 
 							if(shakesThreshold > 4.0){
-								System.out.println("Juan: Scored!");
-								
 								incrementCurrentTeam();
 								shakesRedText.setText(""+ getBlueScore());
-								shakesBlueText.setText(""+ getRedScore());
+								shakesBlueText.setText(""+ getRedScore());						
 							}
 						}
 					}
 				}
 			}
+			timerText.setText(""+timeLeft);
 		}
 	};
 
@@ -97,8 +104,8 @@ public class Game {
 		gameLengthInSeconds_ = gameLength;
 		timeLeft = gameLength;
 		
-		blueTeam = new Team(0, 0, 255);
-		redTeam = new Team(255, 0, 0);
+		blueTeam = new Team(0, 0, 255, "Blue Team");
+		redTeam = new Team(255, 0, 0, "Red Team");
 		currentTeam = redTeam; // TODO: Randomize
 
 		pulseMacroChange = makePulseMacro(mRobot, new RGB(255, 255, 255, 0));
@@ -131,12 +138,6 @@ public class Game {
 	{
 		return gameFinishedFlag;
 	}
-
-	private final ScheduledExecutorService scheduler = Executors
-			.newScheduledThreadPool(2);
-
-	private final ScheduledExecutorService scheduler2 = Executors
-			.newScheduledThreadPool(2);
 	
 	public void startGame() {
 		
@@ -168,32 +169,32 @@ public class Game {
 		
 		final Runnable beeper2 = new Runnable() {
 			public void run() {
-				updateTimer();
+				decreaseTimer();
 			}
 		};
 
-		final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(
+		final ScheduledFuture<?> beeperHandle = getScheduler().scheduleAtFixedRate(
 				beeper, 0, 10, TimeUnit.SECONDS);
 
-		final ScheduledFuture<?> beeperHandle2 = scheduler2.scheduleAtFixedRate(
+		final ScheduledFuture<?> beeperHandle2 = getScheduler2().scheduleAtFixedRate(
 				beeper2, 0, 1, TimeUnit.SECONDS);
 
-		scheduler.schedule(new Runnable() {
+		getScheduler().schedule(new Runnable() {
 			public void run() {		
 				beeperHandle.cancel(true);
+				beeperHandle2.cancel(true);
 				blinkEndGame();
 			}
 
 		}, 1 * gameLengthInSeconds_, TimeUnit.SECONDS);
 	}
 	
-	private void updateTimer(){
+	private void decreaseTimer(){
 		timeLeft = timeLeft - 1;
-		timerText.setText(""+timeLeft);
 	}
 	
 	private Team getWinner() {
-		if (redTeam.getScore() > blueTeam.getScore())
+		if (redTeam.getScore() < blueTeam.getScore())
 			return redTeam;
 		else
 			return blueTeam;
@@ -225,9 +226,13 @@ public class Game {
 		gameFinishedFlag = true;
 		DeviceMessenger.getInstance().removeAsyncDataListener(mRobot, mDataListener);
 	
-		if (mRobot != null) {
-			blink(false);
-		}
+		Team winning = getWinner();
+		RGBLEDOutputCommand.sendCommand(mRobot, winning.r_, winning.g_, winning.b_);
+		
+		timerText.setText(winning.getTeamName() + " WINS!");
+//		if (mRobot != null) {
+//			blink(false);
+//		}
 	}
 
 	/**
@@ -286,6 +291,14 @@ public class Game {
 			//TODO handle not listening error: null robot
 			System.out.println("Juan: Cannot listen to async stream.");
 		}
+	}
+
+	public ScheduledExecutorService getScheduler() {
+		return scheduler;
+	}
+
+	public ScheduledExecutorService getScheduler2() {
+		return scheduler2;
 	}
 	
 }

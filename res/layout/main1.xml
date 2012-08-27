@@ -60,47 +60,22 @@
 
     </FrameLayout>
 
-    <FrameLayout
+    <orbotix.robot.widgets.SlideToSleepView
+        android:id="@+id/slide_to_sleep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:minHeight="250dp"
-        android:minWidth="300dp" >
+        android:visibility="invisible"
+        />
 
-        <TextView
-            android:id="@+id/TitleText1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center_horizontal"
-            android:layout_marginLeft="78dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/title_text_1"
-            android:textColor="@color/BLUE"
-            android:textSize="@dimen/TextSize"
-            app:context=".GameActivity" />
-
-        <TextView
-            android:id="@+id/TitleText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:gravity="left|center_vertical"
-            android:text="@string/title_text_2"
-            android:textColor="@color/BLUE"
-            android:textSize="@dimen/TextSize"
-            app:context=".GameActivity" />
-
-        <TextView
-            android:id="@+id/TextView02"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:text="@string/title_text_3"
-            android:textColor="@color/BLUE"
-            android:textSize="@dimen/TextSize"
-            app:context=".GameActivity" />
-
-    </FrameLayout>
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/slide_to_sleep"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="26dp"
+        android:text="Sleep" />
     
 </RelativeLayout>

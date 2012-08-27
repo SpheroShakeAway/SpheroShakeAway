@@ -40,7 +40,8 @@ public class GameActivity extends Activity {
     	    	
     	if (mRobot != null)
     	{    		
-    	    game = new Game((TextView) findViewById(R.id.ShakesValueBlue),
+    	    game = new Game(
+    	    		(TextView) findViewById(R.id.ShakesValueBlue),
     	    		(TextView) findViewById(R.id.ShakesValueRed),
     	    		(TextView) findViewById(R.id.TimeValue),
     	    		mRobot.getUniqueId(), 
@@ -71,6 +72,8 @@ public class GameActivity extends Activity {
     @Override
     public void onStop(){
     	super.onStop();
+    	game.getScheduler().shutdown();
+    	game.getScheduler2().shutdown();
     	setContentView(R.layout.main1);
     }
 

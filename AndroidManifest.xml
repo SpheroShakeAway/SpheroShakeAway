@@ -11,7 +11,10 @@
 
     <application android:icon="@drawable/water_drop_sphero" android:label="@string/app_name" >
         <activity android:name="ShakeawayActivity"
-                  android:label="@string/app_name">
+                  android:label="@string/app_name"
+                  android:configChanges="orientation|keyboard|keyboardHidden"
+                android:screenOrientation="portrait"
+                android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -23,17 +26,9 @@
      
         <activity
             android:name="InstructionActivity"
-            android:label="@string/title_activity_instruction" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
+            android:label="@string/title_activity_instruction"/>
         <activity
             android:name="GameActivity"
-            android:label="@string/title_activity_game" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
+            android:label="@string/title_activity_game"/>
     </application>
 </manifest> 
