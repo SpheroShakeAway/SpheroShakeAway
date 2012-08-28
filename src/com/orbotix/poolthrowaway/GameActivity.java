@@ -45,7 +45,8 @@ public class GameActivity extends Activity {
     	    		(TextView) findViewById(R.id.ShakesValueRed),
     	    		(TextView) findViewById(R.id.TimeValue),
     	    		mRobot.getUniqueId(), 
-    	    		30);
+    	    		30,
+    	    		10);
     	    game.startGame();    	  
     	}
     	else{
@@ -59,6 +60,18 @@ public class GameActivity extends Activity {
             	{            		
             		Intent intent = new Intent();
             		setResult(RESULT_OK, intent);
+            		endGame();
+            	}
+            }
+        });
+        
+        Button exitBtn = (Button) findViewById(R.id.ExitButton);
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+            	if (game.isFinished())
+            	{            		
+            		Intent intent = new Intent();
+            		setResult(RESULT_CANCELED, intent);
             		endGame();
             	}
             }

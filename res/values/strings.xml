@@ -28,6 +28,7 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_instruction">InstructionActivity</string>
     <string name="title_activity_game">GameActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_text_1">Pool</string>
     <string name="title_text_2">Throw</string>
     <string name="title_text_3">Away!</string>

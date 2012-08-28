@@ -37,7 +37,7 @@ public class Game {
 	private Robot mRobot = null;
 	private MacroObject blinkMacroWinner, pulseMacroChange;
 	private Team blueTeam, redTeam, currentTeam;
-	private long gameLengthInSeconds_;
+	private long gameLengthInSeconds_, gameTurnLengthInSeconds_;
 	private boolean gameFinishedFlag = false;
 	private TextView shakesBlueText, shakesRedText, timerText;
 
@@ -99,9 +99,10 @@ public class Game {
 		}
 	};
 
-	public Game (TextView blueText, TextView redText, TextView timerTextEntry, String robotId, int gameLength) {
+	public Game (TextView blueText, TextView redText, TextView timerTextEntry, String robotId, int gameLength, int turnLength) {
 		mRobot = RobotProvider.getDefaultProvider().findRobot(robotId);
 		gameLengthInSeconds_ = gameLength;
+		gameTurnLengthInSeconds_ = turnLength;
 		timeLeft = gameLength;
 		
 		blueTeam = new Team(0, 0, 255, "Blue Team");
@@ -174,7 +175,7 @@ public class Game {
 		};
 
 		final ScheduledFuture<?> beeperHandle = getScheduler().scheduleAtFixedRate(
-				beeper, 0, 10, TimeUnit.SECONDS);
+				beeper, 0, gameTurnLengthInSeconds_, TimeUnit.SECONDS);
 
 		final ScheduledFuture<?> beeperHandle2 = getScheduler2().scheduleAtFixedRate(
 				beeper2, 0, 1, TimeUnit.SECONDS);

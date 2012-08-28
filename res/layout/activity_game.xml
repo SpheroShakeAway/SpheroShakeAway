@@ -107,15 +107,27 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/PlayAgainButton"
+    
+        <Button
+        android:id="@+id/ExitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="false"
         android:layout_centerHorizontal="true"
         android:minWidth="300dp"
-        android:text="Play Again"
-        android:textSize="@dimen/TextSize3" />
+        android:text="Main Menu"
+        android:textSize="@dimen/TextSize4" />
+
+        <Button
+            android:id="@+id/PlayAgainButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="47dp"
+            android:minWidth="300dp"
+            android:text="Play Again"
+            android:textSize="@dimen/TextSize4" />
 
 </RelativeLayout>

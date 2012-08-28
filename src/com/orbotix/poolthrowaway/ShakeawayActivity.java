@@ -6,7 +6,6 @@ import orbotix.robot.base.Robot;
 import orbotix.robot.base.RobotProvider;
 import orbotix.robot.base.SetDataStreamingCommand;
 import orbotix.robot.base.StabilizationCommand;
-import orbotix.robot.widgets.SlideToSleepView;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -54,23 +53,14 @@ public class ShakeawayActivity extends Activity
             }
         });
         
-        //Add the SlideToSleepView
-//        mSlideToSleepView = (SlideToSleepView)findViewById(R.id.slide_to_sleep);
-//        Button sleepBtn = (Button) findViewById(R.id.slide_to_sleep);
-//        sleepBtn.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View view) {
-//        		onSleepClick(view);
-//            }
-//        });
+        Button settingsBtn = (Button) findViewById(R.id.SettingsButton);
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+            	Intent myIntent = new Intent(view.getContext(), SettingsActivity.class);
+                startActivityForResult(myIntent, 19);
+            }
+        });
     }
-    
-    /**
-     * When the user clicks on the "Sleep" button, show the SlideToSleepView
-     * @param v The Button clicked
-     */
-//    public void onSleepClick(View v){
-//        mSlideToSleepView.show();
-//    }
     
     public void createGameActivity(Object view)
     {
