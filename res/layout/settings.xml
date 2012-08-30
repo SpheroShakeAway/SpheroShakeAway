@@ -1,34 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  >
-  <TextView android:id="@+id/game_duration" 
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content"
-    />
-    <TextView android:id="@+id/turn_duration" 
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content"
-    />
-  <Button android:id="@+id/dateBtn" 
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Set Game Duration in minutes"
-    android:onClick="chooseDate"
-    />
-  <Button android:id="@+id/timeBtn" 
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Set Turn Duration in seconds"
-    android:onClick="chooseTime"
-    />
-    <Button android:id="@+id/doneBtn" 
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Done"
-    android:onClick="chooseTime"
-    />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.04"
+        android:text="Game Duration"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/game_duration"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.27"
+        android:text="0:00"
+        android:textSize="@dimen/TextSize" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.04"
+        android:text="Turn Duration"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/turn_duration"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.27"
+        android:text="0:00"
+        android:textSize="@dimen/TextSize" />
+
+    <Button
+        android:id="@+id/dateBtn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="chooseDate"
+        android:text="Set Game Duration (minutes)" />
+
+    <Button
+        android:id="@+id/timeBtn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="chooseTime"
+        android:text="Set Turn Duration (minutes)" />
+
+    <Button
+        android:id="@+id/doneBtn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="chooseTime"
+        android:text="Done" />
+
 </LinearLayout>

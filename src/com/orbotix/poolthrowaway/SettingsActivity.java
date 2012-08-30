@@ -1,24 +1,13 @@
 package com.orbotix.poolthrowaway;
 
-/***
-Copyright (c) 2008-2012 CommonsWare, LLC
-Licensed under the Apache License, Version 2.0 (the "License"); you may not
-use this file except in compliance with the License. You may obtain	a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0. Unless required
-by applicable law or agreed to in writing, software distributed under the
-License is distributed on an "AS IS" BASIS,	WITHOUT	WARRANTIES OR CONDITIONS
-OF ANY KIND, either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
-	
-From _The Busy Coder's Guide to Android Development_
-  http://commonsware.com/Android
-*/
-
-
 import java.util.Calendar;
+
+import orbotix.robot.app.StartupActivity;
+import orbotix.robot.base.RobotProvider;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -29,6 +18,8 @@ import android.widget.TimePicker;
 public class SettingsActivity extends Activity {
 TextView game_duration, turn_duration;
 Calendar dateAndTime=Calendar.getInstance();
+private int gameDuration_ = 30;
+private int turnDuration_ = 10;
     
 @Override
 public void onCreate(Bundle icicle) {
@@ -46,7 +37,15 @@ public void onCreate(Bundle icicle) {
   });
 }
 
-public void doneSettings(){
+public void doneSettings(){	
+	Intent intent = new Intent();
+	Bundle b = new Bundle();
+	b.putString("gameduration", ""+gameDuration_);
+	b.putString("turnduration", ""+turnDuration_); //Your id
+	intent.putExtras(b); //Put your id to your next Intent	
+	System.out.println("Juan: Created bundle");
+	
+	setResult(RESULT_OK, intent);
 	finish();
 }
 
@@ -66,29 +65,31 @@ public void chooseTime(View v) {
     .show();
 }
 
-private void updateLabelGameDuration(int duration) {
-  game_duration.setText("" + duration);
+private void updateLabelGameDuration(int mins, int secs) {
+  gameDuration_ = (mins*60)+secs;
+  game_duration.setText(mins+":"+secs);
 }
 
-private void updateLabelTurnDuration(int duration){
-  turn_duration.setText(""+ duration);	
+private void updateLabelTurnDuration(int mins, int secs){
+  turnDuration_ = (mins*60)+secs;
+  turn_duration.setText(mins+":"+secs);	
 }
 
 TimePickerDialog.OnTimeSetListener d=new TimePickerDialog.OnTimeSetListener() {
-	  public void onTimeSet(TimePicker view, int hourOfDay,
-              int minute) {
-dateAndTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-dateAndTime.set(Calendar.MINUTE, minute);
-updateLabelGameDuration(hourOfDay);
+	  public void onTimeSet(TimePicker view, int minutes,
+              int seconds) {
+dateAndTime.set(Calendar.MINUTE, minutes);
+dateAndTime.set(Calendar.SECOND, seconds);
+updateLabelGameDuration(minutes, seconds);
 }
 };  
 
 TimePickerDialog.OnTimeSetListener t=new TimePickerDialog.OnTimeSetListener() {
-  public void onTimeSet(TimePicker view, int hourOfDay,
-                        int minute) {
-    dateAndTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-    dateAndTime.set(Calendar.MINUTE, minute);
-    updateLabelTurnDuration(hourOfDay);
+  public void onTimeSet(TimePicker view, int minutes,
+                        int seconds) {
+	  dateAndTime.set(Calendar.MINUTE, minutes);
+	  dateAndTime.set(Calendar.SECOND, seconds);
+    updateLabelTurnDuration(minutes, seconds);
   }
 };  
 }

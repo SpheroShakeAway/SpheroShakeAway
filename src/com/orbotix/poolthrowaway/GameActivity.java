@@ -15,7 +15,8 @@ public class GameActivity extends Activity {
 
 	private Robot mRobot = null;
 	private Game game = null;
-	
+	private int gDuration_ = 30;
+	private int tDuration_ = 10;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +27,8 @@ public class GameActivity extends Activity {
 		if (b != null)
 		{
 			String robotId = b.getString(StartupActivity.EXTRA_ROBOT_ID);
+			gDuration_ = b.getInt("gameduration");
+			tDuration_ = b.getInt("turnduration");
 	        mRobot = RobotProvider.getDefaultProvider().findRobot(robotId);	        
 		}
 		else{
@@ -45,8 +48,8 @@ public class GameActivity extends Activity {
     	    		(TextView) findViewById(R.id.ShakesValueRed),
     	    		(TextView) findViewById(R.id.TimeValue),
     	    		mRobot.getUniqueId(), 
-    	    		30,
-    	    		10);
+    	    		gDuration_,
+    	    		tDuration_);
     	    game.startGame();    	  
     	}
     	else{

@@ -7,9 +7,11 @@ import orbotix.robot.base.RobotProvider;
 import orbotix.robot.base.SetDataStreamingCommand;
 import orbotix.robot.base.StabilizationCommand;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,21 +22,31 @@ public class ShakeawayActivity extends Activity
      */
     private final static int sStartupActivity = 0;
     public final static int RESULT_RELOAD_GAME = 10;
+    public final static int RESULT_SETTINGS = 20;
     /**
      * Robot to from which we are streaming
      */
     private Robot mRobot = null;
     
+    private int settingsGameDuration = 30;
+    private int settingsTurnDuration = 10;
+    
     /**
      * SlideToSleepView
      */
     //private SlideToSleepView mSlideToSleepView;
+    
+    /**
+     * Simple Dialog used to show the splash screen
+     */
+    protected Dialog mSplashDialog;
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.main1);
         
         startActivityForResult(new Intent(this, StartupActivity.class), sStartupActivity);
@@ -57,7 +69,7 @@ public class ShakeawayActivity extends Activity
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
             	Intent myIntent = new Intent(view.getContext(), SettingsActivity.class);
-                startActivityForResult(myIntent, 19);
+                startActivityForResult(myIntent, RESULT_SETTINGS);
             }
         });
     }
@@ -76,16 +88,49 @@ public class ShakeawayActivity extends Activity
 		if (mRobot != null)
 		{
     		b.putString(StartupActivity.EXTRA_ROBOT_ID, mRobot.getUniqueId()); //Your id
+    		b.putInt("gameduration", settingsGameDuration);
+    		b.putInt("turnduration", settingsTurnDuration);
     		intent.putExtras(b); //Put your id to your next Intent	
-    		System.out.println("Juan: Craeted bundle");
+    		System.out.println("Juan: Created bundle");
 		}
-		startActivityForResult(intent, 10);
+		startActivityForResult(intent, RESULT_RELOAD_GAME);
+    }
+    
+    /**
+     * Shows the splash screen over the full Activity
+     */
+    protected void showSplashScreen() {
+        mSplashDialog = new Dialog(this, R.style.SplashScreen);
+        mSplashDialog.setContentView(R.layout.splashscreen);
+        mSplashDialog.setCancelable(false);
+        mSplashDialog.show();
+         
+        // Set Runnable to remove splash screen just in case
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+          @Override
+          public void run() {
+            removeSplashScreen();
+          }
+        }, 6000);
+    }
+    
+    /**
+     * Removes the Dialog that displays the splash screen
+     */
+    protected void removeSplashScreen() {
+        if (mSplashDialog != null) {
+            mSplashDialog.dismiss();
+            mSplashDialog = null;
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        showSplashScreen();
+        
         if(resultCode == RESULT_OK){
 
             if(requestCode == sStartupActivity){
@@ -98,6 +143,19 @@ public class ShakeawayActivity extends Activity
             if(requestCode == RESULT_RELOAD_GAME){
             	System.out.println("Launching new game.");
             	createGameActivity(this);
+            }
+            if(requestCode == RESULT_SETTINGS){
+            	Bundle b = data.getExtras();
+        		if (b != null)
+        		{
+        			settingsGameDuration = Integer.parseInt(b.getString("gameduration"));
+        	        settingsTurnDuration = Integer.parseInt(b.getString("turnduration"));
+        	        System.out.println("Juan: Found game Duration: "+settingsGameDuration);
+        	        System.out.println("Juan: Found turn Duration: "+settingsTurnDuration);
+        		}
+        		else{
+        			System.out.println("Juan: Intent null");
+        		}
             }
         }
     }
