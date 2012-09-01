@@ -49,20 +49,19 @@ public void doneSettings(){
 	finish();
 }
 
-public void chooseDate(View v) {
-  new TimePickerDialog(SettingsActivity.this, d,
-          dateAndTime.get(Calendar.HOUR_OF_DAY),
-          dateAndTime.get(Calendar.MINUTE),
-          true)
-    .show();
+public void chooseGameTurnTime(View v) {
+	  Button btn = (Button) v;
+	  updateLabelTurnDuration(0, Integer.parseInt(btn.getText().toString()));
 }
 
-public void chooseTime(View v) {
-  new TimePickerDialog(SettingsActivity.this, t,
-                        dateAndTime.get(Calendar.HOUR_OF_DAY),
-                        dateAndTime.get(Calendar.MINUTE),
-                        true)
-    .show();
+public void chooseGameTime(View v) {
+//  new TimePickerDialog(SettingsActivity.this, t,
+//                        dateAndTime.get(Calendar.HOUR_OF_DAY),
+//                        dateAndTime.get(Calendar.MINUTE),
+//                        true)
+//    .show();
+  Button btn = (Button) v;
+  updateLabelGameDuration(Integer.parseInt(btn.getText().toString()), 0);
 }
 
 private void updateLabelGameDuration(int mins, int secs) {

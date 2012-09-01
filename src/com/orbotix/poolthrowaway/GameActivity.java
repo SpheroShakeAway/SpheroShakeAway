@@ -56,29 +56,29 @@ public class GameActivity extends Activity {
     		//TODO handle null robot
     	}
 		
-        Button playAgainBtn = (Button) findViewById(R.id.PlayAgainButton);
-        playAgainBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-            	if (game.isFinished())
-            	{            		
-            		Intent intent = new Intent();
-            		setResult(RESULT_OK, intent);
-            		endGame();
-            	}
-            }
-        });
+//        Button playAgainBtn = (Button) findViewById(R.id.PlayAgainButton);
+//        playAgainBtn.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//            	if (game.isFinished())
+//            	{            		
+//            		Intent intent = new Intent();
+//            		setResult(RESULT_OK, intent);
+//            		endGame();
+//            	}
+//            }
+//        });
         
-        Button exitBtn = (Button) findViewById(R.id.ExitButton);
-        exitBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-            	if (game.isFinished())
-            	{            		
-            		Intent intent = new Intent();
-            		setResult(RESULT_CANCELED, intent);
-            		endGame();
-            	}
-            }
-        });
+//        Button exitBtn = (Button) findViewById(R.id.ExitButton);
+//        exitBtn.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//            	if (game.isFinished())
+//            	{            		
+//            		Intent intent = new Intent();
+//            		setResult(RESULT_CANCELED, intent);
+//            		endGame();
+//            	}
+//            }
+//        });
     }
     
     public void endGame(){

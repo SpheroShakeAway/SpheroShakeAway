@@ -1,133 +1,64 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:configChanges="keyboardHidden|orientation"
-    android:screenOrientation="portrait" >
-  
-    <TextView
-        android:id="@+id/TimeValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"        
-        android:minWidth="150dp"
-        android:text="00:00"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#FFFFFF"
-        android:textSize="@dimen/ButtonPadding2"
-        />
+    android:screenOrientation="portrait" 
+    android:background="@drawable/general_bg"
+    android:orientation="vertical" >
     
-    <TextView
-        android:id="@+id/TextView02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/ButtonPadding"
-        android:minWidth="150dp"
-        android:text="Scores"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#FFFFFF"
-        android:layout_below="@id/TimeValue"
-        android:textSize="@dimen/ButtonPadding2" />
-
     <LinearLayout
-        android:id="@+id/MainScoreLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/TextView02"
-        android:orientation="vertical" >
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/TimeValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:minWidth="300dp" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/TextView01"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/ButtonPadding"
-                    android:minWidth="150dp"
-                    android:text="Blue"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="#120A8F"
-                    android:textSize="@dimen/TextSize" />
-
-                <TextView
-                    android:id="@+id/ShakesValueBlue"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_margin="@dimen/TextSize3"
-                    android:text="@string/BlueScore"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="#120A8F"
-                    android:textSize="@dimen/TextSize" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/ButtonPadding"
-                    android:layout_marginBottom="53dp"
-                    android:fitsSystemWindows="false"
-                    android:minWidth="150dp"
-                    android:text="Red"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="#FF0000"
-                    android:textSize="@dimen/TextSize" />
-
-                <TextView
-                    android:id="@+id/ShakesValueRed"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/TextSize3"
-                    android:text="@string/RedScore"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="#FF0000"
-                    android:textSize="@dimen/TextSize" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+            android:layout_gravity="center"
+            android:background="@drawable/time"
+            android:gravity="bottom"
+            android:minWidth="150dp"
+            android:layout_marginLeft="150dp"
+            android:text="00:00"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/BLACK"
+            android:textSize="@dimen/ButtonPadding2"
+            android:paddingLeft="5dp"
+			/>
 
     </LinearLayout>
-    
-        <Button
-        android:id="@+id/ExitButton"
+        
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/ShakesValueRed"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/red_score"
+        android:text="@string/RedScore"
+        android:textColor="#FF0000"
+        android:textSize="@dimen/TextSize" 
+        android:paddingLeft="65dp"
+        android:paddingTop="60dp"
+        />
+
+    <TextView
+        android:id="@+id/ShakesValueBlue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="false"
-        android:layout_centerHorizontal="true"
-        android:minWidth="300dp"
-        android:text="Main Menu"
-        android:textSize="@dimen/TextSize4" />
+        android:background="@drawable/blue_score"
+        android:text="@string/BlueScore"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#120A8F"
+        android:textSize="@dimen/TextSize" 
+        android:paddingLeft="140dp"
+        android:paddingTop="60dp"
+        />
 
-        <Button
-            android:id="@+id/PlayAgainButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="47dp"
-            android:minWidth="300dp"
-            android:text="Play Again"
-            android:textSize="@dimen/TextSize4" />
+</LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

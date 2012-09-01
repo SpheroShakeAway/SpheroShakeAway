@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -52,6 +53,8 @@ public class ShakeawayActivity extends Activity
         startActivityForResult(new Intent(this, StartupActivity.class), sStartupActivity);
 
         Button instructionsBtn = (Button) findViewById(R.id.InstructionsButton);
+        //instructionsBtn.setBackgroundColor(Color.TRANSPARENT);
+        instructionsBtn.setTextColor(Color.TRANSPARENT);
         instructionsBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), InstructionActivity.class);
@@ -59,6 +62,8 @@ public class ShakeawayActivity extends Activity
             }
         });
         Button startBtn = (Button) findViewById(R.id.StartButton);
+        //startBtn.setBackgroundColor(Color.TRANSPARENT);
+        startBtn.setTextColor(Color.TRANSPARENT);
         startBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
         		createGameActivity(view);
@@ -66,6 +71,8 @@ public class ShakeawayActivity extends Activity
         });
         
         Button settingsBtn = (Button) findViewById(R.id.SettingsButton);
+        //settingsBtn.setBackgroundColor(Color.TRANSPARENT);
+        settingsBtn.setTextColor(Color.TRANSPARENT);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
             	Intent myIntent = new Intent(view.getContext(), SettingsActivity.class);
@@ -112,7 +119,7 @@ public class ShakeawayActivity extends Activity
           public void run() {
             removeSplashScreen();
           }
-        }, 6000);
+        }, 2000);
     }
     
     /**

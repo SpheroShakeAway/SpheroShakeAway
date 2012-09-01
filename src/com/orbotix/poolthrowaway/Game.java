@@ -95,7 +95,7 @@ public class Game {
 					}
 				}
 			}
-			timerText.setText(""+timeLeft);
+			updateGameDurationDisplay();
 		}
 	};
 
@@ -216,6 +216,13 @@ public class Game {
 	{
 		System.out.println(redTeam.getScore());
 		return redTeam.getScore();
+	}
+	
+	public void updateGameDurationDisplay()
+	{
+		int mins = timeLeft/60;
+		int secs = timeLeft % 60;
+		timerText.setText(mins +":"+secs);
 	}
 
 	/**

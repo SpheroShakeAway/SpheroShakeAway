@@ -2,59 +2,199 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/general_bg"
     android:orientation="vertical" >
-
-    <TextView
-        android:id="@+id/textView1"
+            
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.04"
-        android:text="Game Duration"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/game_duration"
-        android:layout_width="fill_parent"
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Game Time Duration [mins]"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/game_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="36dp"
+                android:text="0:30"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+            
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+            
+        <Button
+        android:id="@+id/min3Btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.27"
-        android:text="0:00"
-        android:textSize="@dimen/TextSize" />
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/red_square_btn"
+        android:onClick="chooseGameTime"
+        android:text="3" />
+
+    <Button
+        android:id="@+id/min5Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/red_square_btn"
+        android:onClick="chooseGameTime"
+        android:text="5" />
+    
+            <Button
+        android:id="@+id/min10Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/red_square_btn"
+        android:onClick="chooseGameTime"
+        android:text="10" />
+
+    <Button
+        android:id="@+id/min15Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/red_square_btn"
+        android:onClick="chooseGameTime"
+        android:text="15" />
+            <Button
+        android:id="@+id/min20Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/red_square_btn"
+        android:onClick="chooseGameTime"
+        android:text="20" />
+
+    <Button
+        android:id="@+id/min25Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/red_square_btn"
+        android:onClick="chooseGameTime"
+        android:text="25" />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/slider_bar_red" />
+    </LinearLayout>
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.04"
-        android:text="Turn Duration"
+        android:layout_marginLeft="10dp"
+        android:text="Turn Duration [secs]"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/turn_duration"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.27"
-        android:text="0:00"
-        android:textSize="@dimen/TextSize" />
+        android:layout_gravity="right"
+        android:layout_marginLeft="10dp"
+        android:text="0:10"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+        </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
 
     <Button
-        android:id="@+id/dateBtn"
-        android:layout_width="fill_parent"
+        android:id="@+id/sec5Btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="chooseDate"
-        android:text="Set Game Duration (minutes)" />
+        android:background="@drawable/blue_square_btn"
+        android:layout_marginLeft="10dp"
+        android:onClick="chooseGameTurnTime"
+        android:text="5" />
 
     <Button
-        android:id="@+id/timeBtn"
-        android:layout_width="fill_parent"
+        android:id="@+id/sec10Btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="chooseTime"
-        android:text="Set Turn Duration (minutes)" />
+        android:background="@drawable/blue_square_btn"
+        android:onClick="chooseGameTurnTime"
+        android:layout_marginLeft="10dp"
+        android:text="10" />
 
     <Button
-        android:id="@+id/doneBtn"
-        android:layout_width="fill_parent"
+        android:id="@+id/sec15Btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="chooseTime"
-        android:text="Done" />
+        android:background="@drawable/blue_square_btn"
+        android:onClick="chooseGameTurnTime"
+        android:layout_marginLeft="10dp"
+        android:text="15" />
+
+    <Button
+        android:id="@+id/sec20Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_square_btn"
+        android:onClick="chooseGameTurnTime"
+        android:layout_marginLeft="10dp"
+        android:text="20" />
+
+    <Button
+        android:id="@+id/sec25Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_square_btn"
+        android:onClick="chooseGameTurnTime"
+        android:layout_marginLeft="10dp"
+        android:text="25" />
+
+    <Button
+        android:id="@+id/sec30Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_square_btn"
+        android:onClick="chooseGameTurnTime"
+        android:layout_marginLeft="10dp"
+        android:text="30" />
+
+</LinearLayout>
+    
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:src="@drawable/slider_bar_blue" />
+    
+        <Button
+            android:id="@+id/doneBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="right"
+            android:background="@drawable/back_btn"
+            android:onClick="backToMain"
+            android:text="" />
 
 </LinearLayout>
