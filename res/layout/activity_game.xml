@@ -51,8 +51,8 @@
         android:text="@string/RedScore"
         android:textColor="#FF0000"
         android:textSize="@dimen/TextSize" 
-        android:paddingLeft="65dp"
-        android:paddingTop="60dp"
+        android:paddingLeft="75dp"
+        android:paddingTop="70dp"
         />
 
     <TextView
@@ -64,8 +64,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#120A8F"
         android:textSize="@dimen/TextSize" 
-        android:paddingLeft="140dp"
-        android:paddingTop="60dp"
+        android:paddingLeft="160dp"
+        android:paddingTop="70dp"
         />
 
 </LinearLayout>

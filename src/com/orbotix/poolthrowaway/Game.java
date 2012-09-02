@@ -246,7 +246,8 @@ public class Game {
 		scheduler.shutdownNow();
 		
 		Team winning = getWinner();
-		RGBLEDOutputCommand.sendCommand(mRobot, winning.r_, winning.g_, winning.b_);
+		//For some reason this needs to be inverted for correct winner match. Investigate!
+		RGBLEDOutputCommand.sendCommand(mRobot, winning.b_, winning.g_, winning.r_);
   	  	System.out.println("Juan: Game ended!");
   	  	gameScreen_.findViewById(R.id.TimeValue).setVisibility(View.INVISIBLE);
   	  	gameScreen_.findViewById(R.id.ShakesValueBlue).setVisibility(View.INVISIBLE);

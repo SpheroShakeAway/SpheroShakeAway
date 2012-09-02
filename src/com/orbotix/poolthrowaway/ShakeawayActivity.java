@@ -10,12 +10,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.app.AlertDialog;
 
 public class ShakeawayActivity extends Activity
 {
@@ -64,10 +66,11 @@ public class ShakeawayActivity extends Activity
         startBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
             	if(mRobot == null){
-            		AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-            		builder.setMessage("Sphero is not connected. Please make sure you are able to valid connect when launching the game.");
-            		AlertDialog alert = builder.create();
-            		alert.show();
+            		AlertDialog alertDialog = new AlertDialog.Builder(view.getContext()).create();
+            		alertDialog.setTitle("No Sphero Connected");
+            		alertDialog.setMessage("Please restart the application and assure you connect to sphero on launch.");
+            		alertDialog.setButton("Cancel", (OnClickListener) null);
+            		alertDialog.show();
             	}else{
         		createGameActivity(view);
             	}
