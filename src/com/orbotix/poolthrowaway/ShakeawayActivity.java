@@ -7,6 +7,7 @@ import orbotix.robot.base.RobotProvider;
 import orbotix.robot.base.SetDataStreamingCommand;
 import orbotix.robot.base.StabilizationCommand;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,18 +25,14 @@ public class ShakeawayActivity extends Activity
     private final static int sStartupActivity = 0;
     public final static int RESULT_RELOAD_GAME = 10;
     public final static int RESULT_SETTINGS = 20;
+    private boolean initialized = false;
     /**
      * Robot to from which we are streaming
      */
     private Robot mRobot = null;
     
-    private int settingsGameDuration = 30;
+    private int settingsGameDuration = 20;
     private int settingsTurnDuration = 10;
-    
-    /**
-     * SlideToSleepView
-     */
-    //private SlideToSleepView mSlideToSleepView;
     
     /**
      * Simple Dialog used to show the splash screen
@@ -66,12 +63,18 @@ public class ShakeawayActivity extends Activity
         startBtn.setTextColor(Color.TRANSPARENT);
         startBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+            	if(mRobot == null){
+            		AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            		builder.setMessage("Sphero is not connected. Please make sure you are able to valid connect when launching the game.");
+            		AlertDialog alert = builder.create();
+            		alert.show();
+            	}else{
         		createGameActivity(view);
+            	}
             }
         });
         
         Button settingsBtn = (Button) findViewById(R.id.SettingsButton);
-        //settingsBtn.setBackgroundColor(Color.TRANSPARENT);
         settingsBtn.setTextColor(Color.TRANSPARENT);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -136,7 +139,11 @@ public class ShakeawayActivity extends Activity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        showSplashScreen();
+        if(!initialized)
+        {
+        	showSplashScreen();
+        	initialized = true;
+        }
         
         if(resultCode == RESULT_OK){
 

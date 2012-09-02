@@ -6,4 +6,5 @@
     <dimen name="TextSize2">25dp</dimen>
     <dimen name="TextSize3">40dp</dimen>
     <dimen name="TextSize4">20dp</dimen>
+    <dimen name="SettingsTextHeadings">30dp</dimen>
 </resources>

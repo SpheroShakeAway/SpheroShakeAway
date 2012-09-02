@@ -8,6 +8,7 @@ import orbotix.robot.base.RobotProvider;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -26,6 +27,9 @@ public void onCreate(Bundle icicle) {
   super.onCreate(icicle);
   setContentView(R.layout.settings);
   
+  //set custom font
+  setCustomFonts(); 
+  
   game_duration=(TextView)findViewById(R.id.game_duration);
   turn_duration=(TextView)findViewById(R.id.turn_duration);
   
@@ -35,6 +39,22 @@ public void onCreate(Bundle icicle) {
   		doneSettings();
       }
   });
+}
+
+public void setCustomFonts()
+{
+	TextView txt = (TextView) findViewById(R.id.textView1);  
+	Typeface font = Typeface.createFromAsset(getAssets(), "sullivan_fill.otf");  
+	txt.setTypeface(font);
+	
+	txt = (TextView) findViewById(R.id.textView2);   
+	txt.setTypeface(font);
+	
+	txt = (TextView) findViewById(R.id.game_duration);  
+	txt.setTypeface(font);
+	
+	txt = (TextView) findViewById(R.id.turn_duration);  
+	txt.setTypeface(font);
 }
 
 public void doneSettings(){	

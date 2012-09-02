@@ -26,11 +26,14 @@ import orbotix.robot.sensor.AccelerometerData;
 import orbotix.robot.sensor.AttitudeData;
 import orbotix.robot.sensor.DeviceSensorsData;
 import android.app.Activity;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 
 public class Game {
 
@@ -40,6 +43,8 @@ public class Game {
 	private long gameLengthInSeconds_, gameTurnLengthInSeconds_;
 	private boolean gameFinishedFlag = false;
 	private TextView shakesBlueText, shakesRedText, timerText;
+	private View gameScreen_;
+	private Drawable bWin, rWin;
 
 	/**
 	 * Data Streaming Packet Counts
@@ -53,10 +58,33 @@ public class Game {
 	 * Schedulers
 	 */
 	private final ScheduledExecutorService scheduler = Executors
-			.newScheduledThreadPool(2);
-	private final ScheduledExecutorService scheduler2 = Executors
-			.newScheduledThreadPool(2);
+			.newScheduledThreadPool(1);
 
+	public Game (View gameScreen, Drawable blueWin, Drawable redWin, String robotId, int gameLength, int turnLength) {
+		mRobot = RobotProvider.getDefaultProvider().findRobot(robotId);
+		gameLengthInSeconds_ = gameLength;
+		gameTurnLengthInSeconds_ = turnLength;
+		timeLeft = gameLength;
+		gameScreen_ = gameScreen;
+		
+		bWin = blueWin;
+		rWin = redWin;
+		blueTeam = new Team(0, 0, 255, "Blue Team");
+		redTeam = new Team(255, 0, 0, "Red Team");
+		currentTeam = redTeam; // TODO: Randomize
+
+		pulseMacroChange = makePulseMacro(mRobot, new RGB(255, 255, 255, 0));
+
+		//Set the AsyncDataListener that will process each response.
+		DeviceMessenger.getInstance().addAsyncDataListener(mRobot, mDataListener);
+		
+		shakesBlueText = (TextView) gameScreen.findViewById(R.id.ShakesValueBlue);
+		shakesRedText = (TextView) gameScreen.findViewById(R.id.ShakesValueRed);
+		timerText = (TextView) gameScreen.findViewById(R.id.TimeValue);
+		
+		StabilizationCommand.sendCommand(mRobot, false);		
+	}
+	
 	/**
 	 * AsyncDataListener that will be assigned to the DeviceMessager, listen for streaming data, and update the score
 	 */
@@ -96,30 +124,11 @@ public class Game {
 				}
 			}
 			updateGameDurationDisplay();
+			if(gameFinishedFlag){
+				handleEndGame();
+			}
 		}
 	};
-
-	public Game (TextView blueText, TextView redText, TextView timerTextEntry, String robotId, int gameLength, int turnLength) {
-		mRobot = RobotProvider.getDefaultProvider().findRobot(robotId);
-		gameLengthInSeconds_ = gameLength;
-		gameTurnLengthInSeconds_ = turnLength;
-		timeLeft = gameLength;
-		
-		blueTeam = new Team(0, 0, 255, "Blue Team");
-		redTeam = new Team(255, 0, 0, "Red Team");
-		currentTeam = redTeam; // TODO: Randomize
-
-		pulseMacroChange = makePulseMacro(mRobot, new RGB(255, 255, 255, 0));
-
-		//Set the AsyncDataListener that will process each response.
-		DeviceMessenger.getInstance().addAsyncDataListener(mRobot, mDataListener);
-		
-		shakesBlueText = blueText;
-		shakesRedText = redText;
-		timerText = timerTextEntry;
-		
-		StabilizationCommand.sendCommand(mRobot, false);		
-	}
 
 	private MacroObject makePulseMacro(Robot robot, RGB color)
 	{
@@ -147,47 +156,43 @@ public class Game {
 		final Runnable beeper = new Runnable() {
 			public void run() {
 				
-				if(mRobot == null){
-					//TODO Add reconnection logic										
-					System.out.println("Juan: null robot Game logic broken!");
-					return;
-				}
+				if( timeLeft % gameTurnLengthInSeconds_ == 0 && timeLeft >0){
+					if(mRobot == null){
+						//TODO Add reconnection logic										
+						return;
+					}
 
-				pulseMacroChange.playMacro();							
-
-				//Display current team's color
-				if(!isFinished()){
-					RGBLEDOutputCommand.sendCommand(mRobot, currentTeam.r_, currentTeam.g_, currentTeam.b_);
+					//Display current team's color
+					if(!isFinished()){
+						pulseMacroChange.playMacro();
+						RGBLEDOutputCommand.sendCommand(mRobot, currentTeam.r_, currentTeam.g_, currentTeam.b_);
+					}
+					
+					//Change teams
+					if (currentTeam == redTeam)
+						currentTeam = blueTeam;
+					else
+						currentTeam = redTeam;
 				}
-				
-				//Change teams
-				if (currentTeam == redTeam)
-					currentTeam = blueTeam;
-				else
-					currentTeam = redTeam;
+				if(timeLeft > 0){
+					decreaseTimer();
+				}
+				else{
+					gameFinishedFlag = true;
+				}
 			}
-		};
-		
-		final Runnable beeper2 = new Runnable() {
-			public void run() {
-				decreaseTimer();
-			}
-		};
+		};	
 
 		final ScheduledFuture<?> beeperHandle = getScheduler().scheduleAtFixedRate(
-				beeper, 0, gameTurnLengthInSeconds_, TimeUnit.SECONDS);
-
-		final ScheduledFuture<?> beeperHandle2 = getScheduler2().scheduleAtFixedRate(
-				beeper2, 0, 1, TimeUnit.SECONDS);
+				beeper, 0, 1, TimeUnit.SECONDS);
 
 		getScheduler().schedule(new Runnable() {
-			public void run() {		
+			public void run() {
 				beeperHandle.cancel(true);
-				beeperHandle2.cancel(true);
-				blinkEndGame();
 			}
 
 		}, 1 * gameLengthInSeconds_, TimeUnit.SECONDS);
+		System.out.println("Juan: game blocked?");
 	}
 	
 	private void decreaseTimer(){
@@ -195,10 +200,17 @@ public class Game {
 	}
 	
 	private Team getWinner() {
-		if (redTeam.getScore() < blueTeam.getScore())
+		if (redTeam.getScore() > blueTeam.getScore())
+		{
+	  	  	gameScreen_.setBackgroundDrawable(rWin);
+	  	  	gameScreen_.invalidate();
 			return redTeam;
-		else
+		}
+		else{
+	  	  	gameScreen_.setBackgroundDrawable(bWin);
+	  	  	gameScreen_.invalidate();
 			return blueTeam;
+		}
 	}
 
 	public void incrementCurrentTeam()
@@ -230,43 +242,20 @@ public class Game {
 	 * 
 	 * @param lit
 	 */
-	private void blinkEndGame() {
-		gameFinishedFlag = true;
-		DeviceMessenger.getInstance().removeAsyncDataListener(mRobot, mDataListener);
-	
+	private void handleEndGame() {
+		scheduler.shutdownNow();
+		
 		Team winning = getWinner();
 		RGBLEDOutputCommand.sendCommand(mRobot, winning.r_, winning.g_, winning.b_);
+  	  	System.out.println("Juan: Game ended!");
+  	  	gameScreen_.findViewById(R.id.TimeValue).setVisibility(View.INVISIBLE);
+  	  	gameScreen_.findViewById(R.id.ShakesValueBlue).setVisibility(View.INVISIBLE);
+  	  	gameScreen_.findViewById(R.id.ShakesValueRed).setVisibility(View.INVISIBLE);
+		gameScreen_.findViewById(R.id.ExitButton).setVisibility(View.VISIBLE);
+		gameScreen_.invalidate();
 		
-		timerText.setText(winning.getTeamName() + " WINS!");
-//		if (mRobot != null) {
-//			blink(false);
-//		}
+		DeviceMessenger.getInstance().removeAsyncDataListener(mRobot, mDataListener);
 	}
-
-	/**
-     * Causes the robot to blink once every second.
-     * @param lit
-     */
-    private void blink(final boolean lit){
-        
-        if(mRobot != null){
-            
-            //If not lit, send command to show blue light, or else, send command to show no light
-            if(lit){
-                RGBLEDOutputCommand.sendCommand(mRobot, 0, 0, 0);
-            }else{
-                RGBLEDOutputCommand.sendCommand(mRobot, 0, 0, 255);
-            }
-            
-            //Send delayed message on a handler to run blink again
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    blink(!lit);
-                }
-            }, 1000);
-        }
-    }
 
 	private void requestDataStreaming() {
 
@@ -303,10 +292,6 @@ public class Game {
 
 	public ScheduledExecutorService getScheduler() {
 		return scheduler;
-	}
-
-	public ScheduledExecutorService getScheduler2() {
-		return scheduler2;
 	}
 	
 }
