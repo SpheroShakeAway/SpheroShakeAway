@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/back_btn"
+        android:background="@drawable/forward_btn"
         android:text=""
         android:textSize="@dimen/TextSize4" />
 

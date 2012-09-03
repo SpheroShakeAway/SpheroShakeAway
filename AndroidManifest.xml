@@ -26,12 +26,12 @@
      
         <activity
             android:name="InstructionActivity"
-            android:label="@string/title_activity_instruction"/>
+            android:label="Instructions"/>
         <activity
             android:name="GameActivity"
-            android:label="@string/title_activity_game"/>
+            android:label="Game"/>
         <activity
             android:name="SettingsActivity"
-            android:label="$string/title_activity_settings"/>
+            android:label="Settings"/>
     </application>
 </manifest> 

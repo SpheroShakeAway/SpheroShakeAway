@@ -1,5 +1,7 @@
 package com.orbotix.poolthrowaway;
 
+import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 import java.util.List;
@@ -41,7 +43,7 @@ public class Game {
 	private MacroObject blinkMacroWinner, pulseMacroChange;
 	private Team blueTeam, redTeam, currentTeam;
 	private long gameLengthInSeconds_, gameTurnLengthInSeconds_;
-	private boolean gameFinishedFlag = false;
+	private boolean gameFinishedFlag = false, lit=false;
 	private TextView shakesBlueText, shakesRedText, timerText;
 	private View gameScreen_;
 	private Drawable bWin, rWin;
@@ -53,6 +55,7 @@ public class Game {
 	private final static int PACKET_COUNT_THRESHOLD = 50;
 	private int mPacketCounter;
 	private int timeLeft = 0;
+	char[] zerosFormat;
 	
 	/*
 	 * Schedulers
@@ -81,6 +84,9 @@ public class Game {
 		shakesBlueText = (TextView) gameScreen.findViewById(R.id.ShakesValueBlue);
 		shakesRedText = (TextView) gameScreen.findViewById(R.id.ShakesValueRed);
 		timerText = (TextView) gameScreen.findViewById(R.id.TimeValue);
+		
+		zerosFormat = new char[2];
+		Arrays.fill(zerosFormat, '0');
 		
 		StabilizationCommand.sendCommand(mRobot, false);		
 	}
@@ -192,7 +198,30 @@ public class Game {
 			}
 
 		}, 1 * gameLengthInSeconds_, TimeUnit.SECONDS);
-		System.out.println("Juan: game blocked?");
+	}
+	
+	public void blink(final Team winning) {
+		
+		final Runnable beeperBlink = new Runnable() {
+			public void run() {
+				 if(lit){
+	                RGBLEDOutputCommand.sendCommand(mRobot, 0, 0, 0);
+	                lit = false;
+	            }else{
+	            	RGBLEDOutputCommand.sendCommand(mRobot, winning.b_, winning.g_, winning.r_);
+	                lit = true;
+	            }
+			}
+		};	
+		final ScheduledFuture<?> beeperHandleBlink = getScheduler().scheduleAtFixedRate(
+				beeperBlink, 0, 1, TimeUnit.SECONDS);
+		
+		getScheduler().schedule(new Runnable() {
+			public void run() {
+				beeperHandleBlink.cancel(true);
+			}
+
+		}, 1 * 120, TimeUnit.SECONDS);
 	}
 	
 	private void decreaseTimer(){
@@ -234,7 +263,10 @@ public class Game {
 	{
 		int mins = timeLeft/60;
 		int secs = timeLeft % 60;
-		timerText.setText(mins +":"+secs);
+
+		DecimalFormat df = new DecimalFormat(String.valueOf(zerosFormat));
+
+		timerText.setText(mins +":"+df.format(secs));
 	}
 
 	/**
@@ -243,12 +275,13 @@ public class Game {
 	 * @param lit
 	 */
 	private void handleEndGame() {
-		scheduler.shutdownNow();
+		//scheduler.shutdownNow();
 		
 		Team winning = getWinner();
 		//For some reason this needs to be inverted for correct winner match. Investigate!
 		RGBLEDOutputCommand.sendCommand(mRobot, winning.b_, winning.g_, winning.r_);
-  	  	System.out.println("Juan: Game ended!");
+		blink(winning);
+  	  	
   	  	gameScreen_.findViewById(R.id.TimeValue).setVisibility(View.INVISIBLE);
   	  	gameScreen_.findViewById(R.id.ShakesValueBlue).setVisibility(View.INVISIBLE);
   	  	gameScreen_.findViewById(R.id.ShakesValueRed).setVisibility(View.INVISIBLE);
@@ -287,7 +320,7 @@ public class Game {
 		}
 		else{
 			//TODO handle not listening error: null robot
-			System.out.println("Juan: Cannot listen to async stream.");
+			System.out.println("SH2O: Cannot listen to async stream.");
 		}
 	}
 
