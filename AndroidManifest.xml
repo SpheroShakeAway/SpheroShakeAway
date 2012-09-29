@@ -21,16 +21,26 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="orbotix.robot.app.StartupActivity"
-                  />
+        <activity 
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:name="orbotix.robot.app.StartupActivity"/>
      
         <activity
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="landscape"
             android:name="InstructionActivity"
             android:label="Instructions"/>
+        
         <activity
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="landscape"
             android:name="GameActivity"
             android:label="Game"/>
+        
         <activity
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="landscape"
             android:name="SettingsActivity"
             android:label="Settings"/>
     </application>

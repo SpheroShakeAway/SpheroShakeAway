@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Sphero Shake Away</string>
+    <string name="app_name">Sphero H2O</string>
 
     <!-- Values -->
     <string name="gyro">Gyro:</string>
@@ -30,9 +30,6 @@
     <string name="title_activity_instruction">InstructionActivity</string>
     <string name="title_activity_game">GameActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
-    <string name="title_text_1">Pool</string>
-    <string name="title_text_2">Throw</string>
-    <string name="title_text_3">Away!</string>
     <string name="instruction_page_1">Sample Instruction 1</string>
     <string name="instruction_page_2">Sample Instruction 2</string>
     <string name="BlueScore">0</string>
