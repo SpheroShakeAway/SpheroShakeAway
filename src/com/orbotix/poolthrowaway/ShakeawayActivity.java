@@ -27,7 +27,10 @@ public class ShakeawayActivity extends Activity
     private final static int sStartupActivity = 0;
     public final static int RESULT_RELOAD_GAME = 10;
     public final static int RESULT_SETTINGS = 20;
+    public final static int RESULT_DISCLAIMER = 90;
+    
     private boolean initialized = false;
+    private String acceptedRisk = "false";
     /**
      * Robot to from which we are streaming
      */
@@ -71,7 +74,15 @@ public class ShakeawayActivity extends Activity
             		alertDialog.setMessage("Please restart the application and assure you connect to sphero on launch.");
             		alertDialog.setButton("Cancel", (OnClickListener) null);
             		alertDialog.show();
-            	}else{
+            	}
+            	else if(acceptedRisk.equals("false")){
+            		AlertDialog alertDialog = new AlertDialog.Builder(view.getContext()).create();
+            		alertDialog.setTitle("Disclaimer not accepted");
+            		alertDialog.setMessage("Please restart the game and accept the disclaimer in order to play.");
+            		alertDialog.setButton("Cancel", (OnClickListener) null);
+            		alertDialog.show();
+            	}
+            	else{
         		createGameActivity(view);
             	}
             }
@@ -137,6 +148,12 @@ public class ShakeawayActivity extends Activity
             mSplashDialog = null;
         }
     }
+    
+    protected void warningActivityDisclaimer()
+    {
+    	Intent myIntent = new Intent(ShakeawayActivity.this, DisclaimerActivity.class);
+    	ShakeawayActivity.this.startActivityForResult(myIntent, RESULT_DISCLAIMER);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -145,18 +162,38 @@ public class ShakeawayActivity extends Activity
         if(!initialized)
         {
         	showSplashScreen();
+        	warningActivityDisclaimer();
         	initialized = true;
+        	//System.out.println("Juan: Initialized true");
         }
         
         if(resultCode == RESULT_OK){
-
+        	//System.out.println("Juan: Result ok.");
             if(requestCode == sStartupActivity){
+            	//System.out.println("Juan: Robot set");
                 //Get the Robot from the StartupActivity
             	if(mRobot == null){
             		String id = data.getStringExtra(StartupActivity.EXTRA_ROBOT_ID);
             		mRobot = RobotProvider.getDefaultProvider().findRobot(id);
             	}
             }
+            
+        	if(requestCode == RESULT_DISCLAIMER){
+        		Bundle b = data.getExtras();        		
+        		if (b != null)
+        		{
+        			this.acceptedRisk = b.getString("disclaimerAccepted");
+        	        //System.out.println("Juan: Disclaimer choice: "+this.acceptedRisk);
+        	        if(this.acceptedRisk.equals("false")){
+        	        	finish();
+        	        }
+        		}
+        		else{        			
+        			System.out.println("Juan: Intent result disclaimer null");
+        			finish();
+        		}
+        	}
+        	
             if(requestCode == RESULT_RELOAD_GAME){
             	System.out.println("Launching new game.");
             	createGameActivity(this);
@@ -167,14 +204,15 @@ public class ShakeawayActivity extends Activity
         		{
         			settingsGameDuration = Integer.parseInt(b.getString("gameduration"));
         	        settingsTurnDuration = Integer.parseInt(b.getString("turnduration"));
-        	        System.out.println("Juan: Found game Duration: "+settingsGameDuration);
-        	        System.out.println("Juan: Found turn Duration: "+settingsTurnDuration);
+        	        //System.out.println("Juan: Found game Duration: "+settingsGameDuration);
+        	        //System.out.println("Juan: Found turn Duration: "+settingsTurnDuration);
         		}
         		else{
         			System.out.println("Juan: Intent null");
         		}
             }
         }
+       
     }
     
     @Override

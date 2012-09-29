@@ -43,5 +43,11 @@
             android:screenOrientation="landscape"
             android:name="SettingsActivity"
             android:label="Settings"/>
+        
+        <activity
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:name="DisclaimerActivity"
+            android:label="Disclaimer"/>
     </application>
 </manifest> 
